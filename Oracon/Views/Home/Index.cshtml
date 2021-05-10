@@ -1,0 +1,157 @@
+﻿@{Layout = null;}
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>@ViewData["Title"] - Oracon</title>
+    <link rel="shortcut icon" href="/FileProject/HOME.jfif">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/Login.css" />
+    @*<link rel="stylesheet" href="~/css/WEB/animate.css" />
+    <link rel="stylesheet" href="~/css/WEB/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/WEB/colors1_dark.css" />
+    <link rel="stylesheet" href="~/css/WEB/custom.css" />
+    <link rel="stylesheet" href="~/css/WEB/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/css/WEB/responsive.css" />
+    <link rel="stylesheet" href="~/css/WEB/style.css" />*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=PT+Sans&display=swap">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script src="~/js/site.js"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $('#modal').modal('toggle')
+        });
+    </script>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="hero">
+            <div class="contenido-header">
+                <nav class="redes-sociales">
+                    <a href="https://www.facebook.com/AsesoriaEmpresarialOracon"><i class="fa fa-facebook"></i></a>
+                    <a href="https://twitter.com/"><i class="fa fa-twitter"></i></a>
+                    <a href="https://www.youtube.com/channel/UCg9BYxEe8ft9H7IOspIhccw"><i class="fa fa-youtube-play"></i></a>
+                    <a href="https://pe.linkedin.com/company/asesoriaoracon"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                    <a href="https://www.instagram.com/"><i class="fa fa-instagram"></i></a>
+                </nav>
+                <div class="informacion-pagina">
+                    <div class="clearfix">
+                        <p class="fecha"><i class="fa fa-calendar" aria-hidden="true"></i> 15-Oct-2020</p> <!-- cambiar -->
+                        <p class="ciudad"><i class="fa fa-map-marker" aria-hidden="true"></i> Cajamarca, PERÚ</p> <!-- cambiar -->
+                    </div>
+                    <div class="gold">
+                        @*<h1 class="nombre-sitio">ORACON</h1>*@
+                        <h1 class="nombre-sitio"><img src="~/FileProject/logo.png" alt="LOGO ORACON" width="600" /></h1>
+                        <p class="slogan">Somos el mejor estudio contable de Cajamarca</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="barra">
+        <div class="contenedor clearfix">
+            <div class="logo">
+                <a href="/home"><img src="~/FileProject/logo.png" alt="LOGO ORACON" width="180" /></a>
+            </div>
+            <div class="menu-movil">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <nav class="navegacion-principal clearfix">
+                <a href="#">CURSOS</a>
+                <a href="#">PONENTES</a>
+                <a href="#">CATEGORIA</a>
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <a href="/user/login">LOGIN</a>
+                }
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a href="/user/Logout"><i class="fa fa-power-off" aria-hidden="true"></i></a>
+                    <a href="#">@User.Claims.FirstOrDefault().Value</a>
+                }
+            </nav>
+        </div>
+    </div>
+
+
+    <!-- Modal HTML -->
+    @if (User.Identity.IsAuthenticated && ViewBag.User.CorreoConf == false)
+    {
+        <div id="modal" class="modal fade bd-example-modal-sm text-center">
+            <div class="modal-dialog main-section modal-sm">
+                <div class="modal-content">
+                    <div class="col-12 user-img">
+                        <img src="@ViewBag.User.Imagen" />
+                    </div>
+
+                    <div class="text-center text-white">
+                        <h4><strong>CONFIRMAR CORREO</strong></h4>
+                    </div>
+                    <div class="modal-body">
+                        @*<p class="text-white"><strong>Se envio un código de confirmación a tu correo.</strong></p>*@
+                        <form class="col-12" action="/home/confirm" method="post">
+                            <div class="form-group-confirm">
+                                <input type="text" class="form-control text-center" name="confirm" placeholder="Código de confirmación" required="required">
+                            </div>
+                            <p class="text-white">@Html.ValidationMessage("confirm")</p>
+                            <button type="submit" class="btn btn-primary">Confirmar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</body>
+
+
+
+@*<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="d-block w-100" src="..." alt="First 1">
+            </div>
+            @for (int i = 0; i < 12; i = i++)
+            {
+                @if (i >= 0 && i <= 4)
+                {
+                    <div class="carousel-item active">
+                        <img class="d-block w-100" src="..." alt="First @i">
+                    </div>
+                }
+                else
+                {
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="..." alt="First @i">
+                    </div>
+                }
+            }
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>*@

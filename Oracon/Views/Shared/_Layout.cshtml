@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Oracon</title>
+    <link rel="shortcut icon" href="/FileProject/HOME.jfif">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=PT+Sans&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+
+</head>
+<body>
+        <div class="barra">
+            <div class="contenedor clearfix">
+                <div class="logo">
+                    <a href="/home"><img src="~/FileProject/logo.png" alt="LOGO ORACON" width="180" /></a>
+                </div>
+                <div class="menu-movil">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <nav class="navegacion-principal clearfix">
+                    <a href="#">MIS CURSOS</a>
+                    <a href="#">PONENTES</a>
+                    <a href="#">CATEGORIA</a>
+                    <a href="/user/login">INTRANET</a>
+                </nav>
+                <div class="buscador">
+                    <label for="Buscar"><i class="fa fa-search"></i></label>
+                    <input type="search" id="Buscar" size="30" placeholder="Buscar" />
+                </div>
+            </div>
+        </div>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="row">
+            <div class="map_section">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d989.6916442234192!2d-78.52214797084503!3d-7.1529655690096625!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91b25a581c694e43%3A0x39cc787cd85e6647!2sProlongaci%C3%B3n%20Amalia%20Puga%20202%2C%20Cajamarca%2006001!5e0!3m2!1ses!2spe!4v1601355207629!5m2!1ses!2spe" width="520" height="520" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            </div>
+
+            <div class="container">
+                <p>Oracon SRL © Todos los derechos reservados</p>
+            </div>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
