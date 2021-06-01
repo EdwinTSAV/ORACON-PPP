@@ -1,7 +1,7 @@
 ﻿/*FONDO DE LOGIN*/
 
 div.Fondo {
-    background-image: url(../FileProject/Login.png);
+    background-image: url(../project/login.png);
     height: 100vh;
     background-position: top center;
     background-size: cover;
@@ -30,7 +30,6 @@ div.Fondo {
         height: 100px;
         box-shadow: 0px 0px 3px #848484;
         border-radius: 50%;
-        cursor: pointer;
     }
 
     .user-img input {
@@ -88,3 +87,21 @@ button {
     .forgot a {
         color: white;
     }
+
+div.contenido-header {
+    padding-top: 40px;
+}
+
+nav.redes-sociales {
+    text-align: center;
+}
+
+    nav.redes-sociales a {
+        color: #ffffff;
+        font-size: 1.5em;
+        margin-right: 20px;
+    }
+
+        nav.redes-sociales a:last-child {
+            margin-right: 0;
+        }

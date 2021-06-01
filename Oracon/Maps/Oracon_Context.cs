@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Oracon.Models.Class;
-using Oracon.Models.Maps;
+using Oracon.Models;
 
-namespace Oracon.Models
+namespace Oracon.Maps
 {
     public class Oracon_Context : DbContext
     {

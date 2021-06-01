@@ -1,45 +1,22 @@
 ﻿@{Layout = null;}
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>@ViewData["Title"] - Oracon</title>
-    <link rel="shortcut icon" href="/FileProject/HOME.jfif">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oracon</title>
+    
+    <link rel="shortcut icon" href="/project/icono.jpg">
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/site.css">
 
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/Login.css" />
-    @*<link rel="stylesheet" href="~/css/WEB/animate.css" />
-    <link rel="stylesheet" href="~/css/WEB/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/WEB/colors1_dark.css" />
-    <link rel="stylesheet" href="~/css/WEB/custom.css" />
-    <link rel="stylesheet" href="~/css/WEB/font-awesome.min.css" />
-    <link rel="stylesheet" href="~/css/WEB/responsive.css" />
-    <link rel="stylesheet" href="~/css/WEB/style.css" />*@
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glider-js@1.7.3/glider.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=PT+Sans&display=swap">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-    <script src="~/js/site.js"></script>
-
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script>
-        $(document).ready(function () {
-            $('#modal').modal('toggle')
-        });
-    </script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Oswald:wght@500&family=PT+Sans&display=swap">
 </head>
 
-<body>
+<body class="index">
     <header class="site-header">
         <div class="hero">
             <div class="contenido-header">
@@ -57,7 +34,7 @@
                     </div>
                     <div class="gold">
                         @*<h1 class="nombre-sitio">ORACON</h1>*@
-                        <h1 class="nombre-sitio"><img src="~/FileProject/logo.png" alt="LOGO ORACON" width="600" /></h1>
+                        <h1 class="nombre-sitio"><img src="~/project/logo.png" alt="LOGO ORACON" width="600" /></h1>
                         <p class="slogan">Somos el mejor estudio contable de Cajamarca</p>
                     </div>
                 </div>
@@ -67,8 +44,8 @@
 
     <div class="barra">
         <div class="contenedor clearfix">
-            <div class="logo">
-                <a href="/home"><img src="~/FileProject/logo.png" alt="LOGO ORACON" width="180" /></a>
+            <div class="logo clearfix">
+                <a href="/"><img src="~/project/logo.png" alt="ORACON" /></a>
             </div>
             <div class="menu-movil">
                 <span></span>
@@ -78,7 +55,7 @@
             </div>
             <nav class="navegacion-principal clearfix">
                 <a href="#">CURSOS</a>
-                <a href="#">PONENTES</a>
+                <a href="#">DOCENTES</a>
                 <a href="#">CATEGORIA</a>
                 @if (!User.Identity.IsAuthenticated)
                 {
@@ -86,72 +63,175 @@
                 }
                 @if (User.Identity.IsAuthenticated)
                 {
+                    <a href="#">
+                        <img class="user-img" src="@ViewBag.User.Imagen" alt="user" />
+                    </a>
                     <a href="/user/Logout"><i class="fa fa-power-off" aria-hidden="true"></i></a>
-                    <a href="#">@User.Claims.FirstOrDefault().Value</a>
                 }
             </nav>
         </div>
     </div>
 
+    <section class="seccion contenedor">
+        <h2>Bienvenido a la escuela de negocios de ORACON</h2>
+        <p>
+            Oracon ha desarrollado una escuela de negocios para nuestros clientes, donde podrás aprender las últimas tendencias de administración de empresas, cursos prácticos como: Marketing Digital, Planeamiento Estratégico, Liderazgo, Brandig entre otros.
+        </p>
+    </section>
 
-    <!-- Modal HTML -->
-    @if (User.Identity.IsAuthenticated && ViewBag.User.CorreoConf == false)
-    {
-        <div id="modal" class="modal fade bd-example-modal-sm text-center">
-            <div class="modal-dialog main-section modal-sm">
-                <div class="modal-content">
-                    <div class="col-12 user-img">
-                        <img src="@ViewBag.User.Imagen" />
-                    </div>
 
-                    <div class="text-center text-white">
-                        <h4><strong>CONFIRMAR CORREO</strong></h4>
-                    </div>
-                    <div class="modal-body">
-                        @*<p class="text-white"><strong>Se envio un código de confirmación a tu correo.</strong></p>*@
-                        <form class="col-12" action="/home/confirm" method="post">
-                            <div class="form-group-confirm">
-                                <input type="text" class="form-control text-center" name="confirm" placeholder="Código de confirmación" required="required">
-                            </div>
-                            <p class="text-white">@Html.ValidationMessage("confirm")</p>
-                            <button type="submit" class="btn btn-primary">Confirmar</button>
-                        </form>
+    <section class="programa">
+        <div class="contenedor-video">
+            <video autoplay loop poster="~/project/bg-talleres.jpg">
+                <source src="video/video.mp4" type="video/mp4">
+                <source src="video/video.webm" type="video/webm">
+                <source src="video/video.ogv" type="video/ogv">
+            </video>
+        </div>
+        <div class="contenido-programa">
+            <div class="contenedor">
+                <div class="programa-evento">
+                    <h2>Cursos mas populares</h2>
+
+                    <nav class="menu-programa">
+                        <a href="#administracion"><i class="fa fa-users" aria-hidden="true"></i> Administración</a>
+                        <a href="#contabilidad"><i class="fa fa-pie-chart" aria-hidden="true"></i> Contabilidad</a>
+                        <a href="#marketing"><i class="fa fa-line-chart" aria-hidden="true"></i> Marketing</a>
+                        <a href="#ofimatica"><i class="fa fa-desktop" aria-hidden="true"></i> Ofimática</a>
+                    </nav>
+
+                    <div id="administracion" class="info-curso ocultar clearfix">
+                        <div class="detalle-evento">
+                            <h3>Como ser freelancer</h3>
+                            <p><i class="fa fa-clock-o" aria-hidden="true"></i> 10:00</p>
+                            <p><i class="fa fa-money" aria-hidden="true"></i> 150</p>
+                            <p><i class="fa fa-user" aria-hidden="true"></i> Susan Sanchez</p>
+                        </div>
+                        <div class="detalle-evento">
+                            <h3>Como ser freelancer</h3>
+                            <p><i class="fa fa-clock-o" aria-hidden="true"></i> 10:00</p>
+                            <p><i class="fa fa-money" aria-hidden="true"></i> 150</p>
+                            <p><i class="fa fa-user" aria-hidden="true"></i> Susan Sanchez</p>
+                        </div>
+                        <button href="" class="button float-right">Ver mas</button>
                     </div>
                 </div>
             </div>
         </div>
-    }
-</body>
+    </section>
 
-
-
-@*<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img class="d-block w-100" src="..." alt="First 1">
+    <section class="contenedor seccion">
+        <h2>Nuestro grupo de docentes</h2>
+        <div class="glider-contain">
+            <div class="glider">
+                <div class="glider-item">
+                    <a class="invitado-info" href="#invitado1">
+                        <img src="~/FilesBD/1.jpg" alt="Docente1">
+                        <p>Rafael  Bautista</p>
+                    </a>
+                </div>
+                <div class="glider-item">
+                    <a class="invitado-info" href="#invitado2">
+                        <img src="~/FilesBD/2.jpg" alt="Docente2">
+                        <p>Shari Herrera</p>
+                    </a>
+                </div>
+                <div class="glider-item">
+                    <a class="invitado-info" href="#invitado3">
+                        <img src="~/FilesBD/chicolac2010.jpg" alt="Docente3">
+                        <p>Suan Sanchez</p>
+                    </a>
+                </div>
+                <div class="glider-item">
+                    <a class="invitado-info" href="#invitado1">
+                        <img src="~/FilesBD/1.jpg" alt="Docente1">
+                        <p>Rafael  Bautista</p>
+                    </a>
+                </div>
+                <div class="glider-item">
+                    <a class="invitado-info" href="#invitado2">
+                        <img src="~/FilesBD/2.jpg" alt="Docente2">
+                        <p>Shari Herrera</p>
+                    </a>
+                </div>
+                <div class="glider-item">
+                    <a class="invitado-info" href="#invitado3">
+                        <img src="~/FilesBD/unnamed.jpg" alt="Docente3">
+                        <p>Suan Sanchez</p>
+                    </a>
+                </div>
+                <div class="glider-item">
+                    <a class="invitado-info" href="#invitado1">
+                        <img src="~/FilesBD/1.jpg" alt="Docente1">
+                        <p>Rafael  Bautista</p>
+                    </a>
+                </div>
+                <div class="glider-item">
+                    <a class="invitado-info" href="#invitado2">
+                        <img src="~/FilesBD/2.jpg" alt="Docente2">
+                        <p>Shari Herrera</p>
+                    </a>
+                </div>
+                <div class="glider-item">
+                    <a class="invitado-info" href="#invitado3">
+                        <img src="~/FilesBD/3.jpg" alt="Docente3">
+                        <p>Suan Sanchez</p>
+                    </a>
+                </div>
             </div>
-            @for (int i = 0; i < 12; i = i++)
-            {
-                @if (i >= 0 && i <= 4)
-                {
-                    <div class="carousel-item active">
-                        <img class="d-block w-100" src="..." alt="First @i">
-                    </div>
-                }
-                else
-                {
-                    <div class="carousel-item">
-                        <img class="d-block w-100" src="..." alt="First @i">
-                    </div>
-                }
-            }
+            <button class="glider-prev" aria-label="anterior">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+            </button>
+            <button class="glider-next" aria-label="siguiente">
+                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            </button>
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>*@
+    </section>
+
+
+    <div class="contador parallax">
+        <div class="contenedor">
+            <ul class="resumen-evento clearfix">
+                <li><p class="numero">11</p>Docentes</li>
+                <li><p class="numero">120</p>Cursos Totales</li>
+                <li><p class="numero">10</p>Cursos Inscritos</li>
+                <li><p class="numero">2</p>Cursos Completados</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="contenedor clearfix">
+            <div class="map-section">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d989.6916442234192!2d-78.52214797084503!3d-7.1529655690096625!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91b25a581c694e43%3A0x39cc787cd85e6647!2sProlongaci%C3%B3n%20Amalia%20Puga%20202%2C%20Cajamarca%2006001!5e0!3m2!1ses!2spe!4v1601355207629!5m2!1ses!2spe" width="520" height="520" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            </div>
+
+            <div class="ultimos-tweets">
+                <h3>Últimos <span>tweets</span></h3>
+                <a class="twitter-timeline" data-height="400" data-theme="light" data-link-color="#fe4918" href="https://twitter.com/gold_conference">Tweets by</a>
+                <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
+
+            <div class="menu">
+                <h3>Redes <span>sociales</span></h3>
+                <nav class="redes-sociales">
+                    <a href="https://www.facebook.com/Gold-Conf-101088928504837"><i class="fa fa-facebook"></i></a>
+                    <a href="https://twitter.com/gold_conference"><i class="fa fa-twitter"></i></a>
+                    <a href="https://www.youtube.com/channel/UCVbYnjINFhIA_qLPC9zAa8Q"><i class="fa fa-youtube-play"></i></a>
+                    <a href="https://www.instagram.com/GOLDCONF_/"><i class="fa fa-instagram"></i></a>
+
+                </nav>
+            </div>
+        </div>
+
+        <p class="copyright">
+            Oracon SRL © Todos los derechos reservados.
+        </p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/glider-js@1.7.3/glider.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="~/js/site.js"></script>
+</body>
+</html>

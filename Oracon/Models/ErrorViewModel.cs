@@ -1,5 +1,3 @@
-using System;
-
 namespace Oracon.Models
 {
     public class ErrorViewModel

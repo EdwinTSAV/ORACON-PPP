@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Oracon.Models;
+using Oracon.Maps;
+using Oracon.Repositorio;
+using Oracon.Servicios;
 
 namespace Oracon
 {
@@ -26,6 +28,10 @@ namespace Oracon
                 o => o.UseSqlServer(Configuration.GetConnectionString("Connection")));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(o => o.LoginPath = "/user/login");
+
+            services.AddTransient<IClaimService, ClaimService>();
+            services.AddTransient<IUserRepo, UserRepo>();
+            services.AddTransient<IHomeRepo, HomeRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

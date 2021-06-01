@@ -1,12 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Oracon.Models.Class;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Oracon.Models;
 
-namespace Oracon.Models.Maps
+namespace Oracon.Maps
 {
     public class UsuarioMap : IEntityTypeConfiguration<Usuario>
     {

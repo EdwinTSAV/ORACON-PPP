@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Oracon.Models.Class
+namespace Oracon.Models
 {
     public class Usuario
     {
@@ -15,14 +15,10 @@ namespace Oracon.Models.Class
         public string Apellidos { get; set; }
         
         public string Celular { get; set; }
-        
-        public bool CelularConf { get; set; }
 
         [Required(ErrorMessage = "Este campo es obligatorio")]
         [EmailAddress(ErrorMessage = "El campo no es una dirección de correo electrónico válida")]
         public string Correo { get; set; }
-        
-        public bool CorreoConf { get; set; }
                 
         [Required(ErrorMessage = "Este campo es obligatorio")]
         [RegularExpression(@"[a-zA-Z0-9]+" , ErrorMessage = "Carácteres permitidos (a-z A-Z 0-9)")]

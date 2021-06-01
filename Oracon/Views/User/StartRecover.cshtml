@@ -1,11 +1,11 @@
 ﻿@{Layout = null;}
 @model Oracon.Models.Class.RecoverP
-
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Oracon</title>
-    <link rel="shortcut icon" href="/FileProject/HOME.jfif">
+    <link rel="shortcut icon" href="/project/icono.jpg">
 
     <!--JQUERY-->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -20,9 +20,6 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="/css/Login.css">
-    <link rel="stylesheet" href="/css/site.css">
-    <link rel="stylesheet" href="/css/normalize.css" />
-
 </head>
 
 <body>
@@ -30,23 +27,18 @@
         <div class="fondo">
             <div class="contenido-header">
                 <nav class="redes-sociales">
-                    <a href="/home/index"><i class="fa fa-home" aria-hidden="true"></i></a>
+                    <a href="/"><i class="fa fa-home" aria-hidden="true"></i></a>
                 </nav>
             </div>
-
             <div class="modal-dialog text-center">
                 <div class="col-sm-8 main-section">
                     <div class="modal-content">
                         <div class="col-12 user-img">
-                            <img src="~/FileProject/user.png" width="50" height="50" />
+                            <img src="~/project/user.png" width="50" height="50" />
                         </div>
                         <form class="col-12" action="/user/startrecover" method="post">
-
                             <input type="hidden" name="Token" value="@Model.Token" />
-                            @*@Html.HiddenFor(d => d.Token)*@
-
                             <p class="text-white">@Html.ValidationMessage("Recovery")</p>
-
                             <div class="form-group" id="contrasena-group">
                                 <input type="password" class="form-control" placeholder="Contraseña" name="Password" />
                                 <p class="text-white">@Html.ValidationMessage("Password")</p>
@@ -60,7 +52,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </header>
 </body>
+</html>
