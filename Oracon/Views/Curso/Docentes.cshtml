@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Docentes";
+    var usuarios = (List<Usuario>)Model;
+}
+
+<form asp-action="docentes" method="get">
+    <div class="">
+        <input style="background-size:cover; " type="search" name="search" value="">
+        <button class="button" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Buscar</button>
+    </div>
+</form>
+
+<section class="invitados seccion">
+    <ul class="lista-invitados clearfix">
+        @foreach (var item in usuarios)
+        {
+            <li>
+                <div class="invitado">
+                    <a class="invitado-info" href="/Curso/Docente?idDocente=@item.Id">
+                        <img width="346" src="@item.Imagen" height="230" alt="Imagen docente">
+                        <p>@item.Nombres @item.Apellidos</p>
+                    </a>
+                </div>
+            </li>
+        }
+    </ul>
+</section>

@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "~/Views/Shared/Docente/_Layout.cshtml";
+    ViewData["Title"] = "Cursos";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Crear nuevo Curso</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/admin/">Dashboard</a></li>
+        <li class="breadcrumb-item active">Crear curso</li>
+    </ol>
+    <form action="/docente/CrearCursos" enctype="multipart/form-data" class="col-12" method="post">
+        <div class="mb-3">
+            <label class="form-label" for="image">Imagen</label>
+            <input type="file" class="form-control" name="image" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="Nombre">Nombre</label>
+            <input type="text" class="form-control" placeholder="Nombre" name="Nombre" value="@Model.Nombre" required />
+            <p class="alert-danger">@Html.ValidationMessage("Nombre")</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="Descripcion">Descripcion</label>
+            <input type="text" class="form-control" placeholder="Descripcion" name="Descripcion" value="@Model.Descripcion" required />
+            <p class="alert-danger">@Html.ValidationMessage("Descripcion")</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="Precio">Precio</label>
+            <input type="text" class="form-control" placeholder="Precio" name="Precio" value="@Model.Precio" required />
+            <p class="alert-danger">@Html.ValidationMessage("Precio")</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="IdCategoria">Categoria</label>
+            <select name="IdCategoria" class="form-control" required>
+                <option value="">-- Selecciona una categoria --</option>
+                @foreach (var item in ViewBag.Categorias)
+                {
+                    <option value="@item.Id">@item.Nombre</option>
+                }
+            </select>
+            <p class="alert-danger">@Html.ValidationMessage("IdCategoria")</p>
+        </div>
+        <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
+        <a class="btn btn-danger" href="/admin/">Cancelar</a>
+    </form>
+</div>

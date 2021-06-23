@@ -1,0 +1,56 @@
+﻿@{
+    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+    ViewData["Title"] = "Usuarios";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Crear nuevo Usuario</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/admin/">Dashboard</a></li>
+        <li class="breadcrumb-item active">Crear usuario</li>
+    </ol>
+    <form action="/admin/CrearUsuarios" class="col-12" method="post">
+        <div class="mb-3">
+            <label class="form-label" for="Nombres">Nombres</label>
+            <input type="text" class="form-control" placeholder="Nombres" name="Nombres" value="@Model.Nombres" required />
+            <p class="alert-danger">@Html.ValidationMessage("Nombres")</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="Apellidos">Apellidos</label>
+            <input type="text" class="form-control" placeholder="Apellidos" name="Apellidos" value="@Model.Apellidos" required />
+            <p class="alert-danger">@Html.ValidationMessage("Apellidos")</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="Correo">Correo</label>
+            <input type="text" class="form-control" placeholder="Correo electronico" name="Correo" value="@Model.Correo" required />
+            <p class="alert-danger">@Html.ValidationMessage("Correo")</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="Username">Username</label>
+            <input type="text" class="form-control" placeholder="Nombre de Usuario" name="Username" value="@Model.Username" required />
+            <p class="alert-danger">@Html.ValidationMessage("Username")</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="Password">Password</label>
+            <input type="password" class="form-control" placeholder="Password" name="Password" value="@Model.Password" required />
+            <p class="alert-danger">@Html.ValidationMessage("Password")</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="passwordConf">Confirmar Contraseña</label>
+            <input type="password" class="form-control" placeholder="Confirmar Contraseña" name="passwordConf" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="IdRol">Rol de Usuario</label>
+            <select name="IdRol" class="form-control" required>
+                <option value="">-- Selecciona una opcion --</option>
+                @foreach (var item in ViewBag.Roles)
+                {
+                    <option value="@item.Id">@item.Nombre</option>
+                }
+            </select>
+            <p class="alert-danger">@Html.ValidationMessage("IdRol")</p>
+        </div>
+        <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
+        <a class="btn btn-danger" href="/admin/">Cancelar</a>
+    </form>
+</div>

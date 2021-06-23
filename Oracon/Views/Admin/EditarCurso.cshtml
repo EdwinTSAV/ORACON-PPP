@@ -1,0 +1,70 @@
+﻿@{
+    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+    ViewData["Title"] = "Cursos";
+    var curso = (Curso)Model;
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Editar Curso</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/admin/">Dashboard</a></li>
+        <li class="breadcrumb-item active">Editar curso</li>
+    </ol>
+    <form action="/admin/EditarCurso" class="col-12" method="post">
+        <input type="hidden" name="Id" value="@curso.Id" />
+        <input type="hidden" name="Imagen" value="@curso.Imagen" />
+        <div class="mb-3">
+            <label class="form-label" for="Nombre">Nombre</label>
+            <input type="text" class="form-control" placeholder="Nombre" name="Nombre" value="@curso.Nombre" required />
+            <p class="alert-danger">@Html.ValidationMessage("Nombre")</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="Descripcion">Descripcion</label>
+            <input type="text" class="form-control" placeholder="Descripcion" name="Descripcion" value="@curso.Descripcion" required />
+            <p class="alert-danger">@Html.ValidationMessage("Descripcion")</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="Precio">Precio</label>
+            <input type="text" class="form-control" placeholder="Precio" name="Precio" value="@curso.Precio" required />
+            <p class="alert-danger">@Html.ValidationMessage("Precio")</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="IdDocente">Docente</label>
+            <select name="IdDocente" class="form-control" required>
+                <option value="">-- Selecciona un docente --</option>
+                @foreach (var item in ViewBag.Docentes)
+                {
+                    @if (curso.IdDocente == item.Id)
+                    {
+                        <option value="@item.Id" selected>@item.Nombres @item.Apellidos</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Id">@item.Nombres @item.Apellidos</option>
+                    }
+                }
+            </select>
+            <p class="alert-danger">@Html.ValidationMessage("IdDocente")</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="IdCategoria">Categoria</label>
+            <select name="IdCategoria" class="form-control" required>
+                <option value="">-- Selecciona una categoria --</option>
+                @foreach (var item in ViewBag.Categorias)
+                {
+                    @if (curso.IdCategoria == item.Id)
+                    {
+                        <option value="@item.Id" selected>@item.Nombre</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Id">@item.Nombre</option>
+                    }
+                }
+            </select>
+            <p class="alert-danger">@Html.ValidationMessage("IdCategoria")</p>
+        </div>
+        <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
+        <a class="btn btn-danger" href="/admin/">Cancelar</a>
+    </form>
+</div>

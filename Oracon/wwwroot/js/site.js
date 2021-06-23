@@ -3,12 +3,15 @@
 
 // Write your JavaScript code.
 
-/** BARRA MOVIL */
+/** BARRA MOVIL HOME INDEX */
 $(function () {
     var n = $(window).height(),
         a = $(".barra").innerHeight();
-    console.log(n);
-
+    $(window).scroll(function () {
+        $(window).scrollTop() > n ? ($(".barra").addClass("fixed"),
+            $("body").css({ "margin-top": a + "px" })) : ($(".barra").removeClass("fixed"),
+                $("body").css({ "margin-top": "0px" }))
+    });
     $(".menu-movil").on("click", function () {
         $(".navegacion-principal").slideToggle()
     });
@@ -19,7 +22,7 @@ $(function () {
     })
 });
 
-// seleccionar foto //
+// SELECCION DE FOTO //
 $(document).on("click", "#add-photo", function () {
     $("#file").click();
 });
@@ -34,6 +37,8 @@ function mostrar() {
         }
     }
 }
+
+/** CARROSEL CON GLIDER **/
 
 window.addEventListener('load', function () {
     new Glider(document.querySelector('.glider'), {
@@ -50,7 +55,7 @@ window.addEventListener('load', function () {
                 breakpoint: 700,
                 settings: {
                     slidesToShow: 2,
-                    slidesToScroll: 1,
+                    slidesToScroll: 2,
                     itemWidth: 150,
                     duration: 0.25
                 }
@@ -59,7 +64,7 @@ window.addEventListener('load', function () {
                 breakpoint: 1000,
                 settings: {
                     slidesToShow: 3,
-                    slidesToScroll: 1,
+                    slidesToScroll: 3,
                     itemWidth: 150,
                     duration: 0.25
                 }

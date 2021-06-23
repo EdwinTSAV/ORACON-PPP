@@ -6,8 +6,8 @@
     <title>@ViewData["Title"] - Oracon</title>
 
     <link rel="shortcut icon" href="/project/icono.jpg">
-    <link rel="stylesheet" href="/css/normalize.css">
-    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glider-js@1.7.3/glider.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" />
@@ -27,9 +27,15 @@
                 <span></span>
             </div>
             <nav class="navegacion-principal clearfix">
-                <a href="#">MIS CURSOS</a>
-                <a href="#">DOCENTES</a>
-                <a href="#">CATEGORIA</a>
+                <a href="/Curso/Categorias?idCategoria=0">CURSOS</a>
+                <a href="/Curso/Docentes">DOCENTES</a>
+                <a class="nav-link" data-bs-toggle="dropdown" aria-expanded="false" href="#">CATEGORIA</a>
+                <ul class="dropdown-menu ">
+                    @foreach (var item in ViewBag.Categorias)
+                    {
+                        <li><a class="dropdown-item" href="/Curso/Categorias?idCategoria=@item.Id">@item.Nombre</a></li>
+                    }
+                </ul>
                 @if (!User.Identity.IsAuthenticated)
                 {
                     <a href="/user/login">LOGIN</a>
@@ -54,42 +60,18 @@
         </main>
     </div>
 
-
     <footer class="site-footer">
-        <div class="contenedor clearfix">
-            <div class="map-section">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d989.6916442234192!2d-78.52214797084503!3d-7.1529655690096625!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91b25a581c694e43%3A0x39cc787cd85e6647!2sProlongaci%C3%B3n%20Amalia%20Puga%20202%2C%20Cajamarca%2006001!5e0!3m2!1ses!2spe!4v1601355207629!5m2!1ses!2spe" width="520" height="520" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-            </div>
-
-            <div class="ultimos-tweets">
-                <h3>Últimos <span>tweets</span></h3>
-                <a class="twitter-timeline" data-height="400" data-theme="light" data-link-color="#fe4918" href="https://twitter.com/gold_conference">Tweets by</a>
-                <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-            </div>
-
-            <div class="menu">
-                <h3>Redes <span>sociales</span></h3>
-                <nav class="redes-sociales">
-                    <a href="https://www.facebook.com/Gold-Conf-101088928504837"><i class="fa fa-facebook"></i></a>
-                    <a href="https://twitter.com/gold_conference"><i class="fa fa-twitter"></i></a>
-                    <a href="https://www.youtube.com/channel/UCVbYnjINFhIA_qLPC9zAa8Q"><i class="fa fa-youtube-play"></i></a>
-                    <a href="https://www.instagram.com/GOLDCONF_/"><i class="fa fa-instagram"></i></a>
-                </nav>
+        <div class="container-fluid px-4">
+            <div class="d-flex align-items-center justify-content-between small">
+                <div class="text-muted">Oracon SRL © Todos los derechos reservados.</div>
+                <a href="/home/privacy">Privacy Policy</a>
             </div>
         </div>
-
-        <p class="copyright">
-            Oracon SRL © Todos los derechos reservados.
-        </p>
-
     </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/glider-js@1.7.3/glider.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/main.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
-
 </body>
 </html>

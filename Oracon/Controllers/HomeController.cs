@@ -27,6 +27,7 @@ namespace Oracon.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            ViewBag.Categorias = context.GetCategorias();
             if (HttpContext.User.Identity.IsAuthenticated)
             {
                 claim.SetHttpContext(HttpContext);
@@ -39,6 +40,7 @@ namespace Oracon.Controllers
         [HttpGet]
         public IActionResult Privacy()
         {
+            ViewBag.Categorias = context.GetCategorias();
             if (HttpContext.User.Identity.IsAuthenticated)
             {
                 claim.SetHttpContext(HttpContext);
