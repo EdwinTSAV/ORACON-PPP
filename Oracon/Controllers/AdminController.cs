@@ -1,17 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Oracon.Maps;
 using Oracon.Models;
+using Oracon.Repositorio;
 using Oracon.Servicios;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Oracon.Controllers
 {
@@ -19,23 +11,21 @@ namespace Oracon.Controllers
     public class AdminController : Controller
     {
         private readonly IClaimService claim;
-        private readonly Oracon_Context context;
-        private readonly IConfiguration configuration;
+        private readonly IAdminRepo context;
 
-        public AdminController(Oracon_Context context, IClaimService claim, IConfiguration configuration)
+        public AdminController(IAdminRepo context, IClaimService claim)
         {
             this.context = context;
             this.claim = claim;
-            this.configuration = configuration;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
+            ViewBag.Categorias = context.GetCategorias();
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 1)
             {
-                ViewBag.Categorias = context.Categorias.ToList();
                 return View();
             }
             else
@@ -45,14 +35,11 @@ namespace Oracon.Controllers
         [HttpGet]
         public IActionResult Usuarios(int idRol)
         {
+            ViewBag.Categorias = context.GetCategorias();
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 1)
             {
-                ViewBag.Categorias = context.Categorias.ToList();
-                var usuario = context.Usuarios.
-                    Where(o => o.IdRol == idRol).
-                    Include(o => o.Roles).
-                    ToList();
+                var usuario = context.GetUsuariosRol(idRol);
                 if (idRol == 2)
                     ViewBag.Nombre = "Docentes";
                 else if (idRol == 3)
@@ -68,11 +55,11 @@ namespace Oracon.Controllers
         [HttpGet]
         public IActionResult CrearUsuarios()
         {
+            ViewBag.Categorias = context.GetCategorias();
+            ViewBag.Roles = context.GetRoles();
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 1)
             {
-                ViewBag.Categorias = context.Categorias.ToList();
-                ViewBag.Roles = context.Roles.ToList();
                 return View(new Usuario());
             }
             else
@@ -82,12 +69,14 @@ namespace Oracon.Controllers
         [HttpPost]
         public IActionResult CrearUsuarios(Usuario usuario, string passwordConf)
         {
+            ViewBag.Categorias = context.GetCategorias();
+            ViewBag.Roles = context.GetRoles();
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 1)
             {
                 if (usuario.Password != passwordConf)
                     ModelState.AddModelError("Password", "Las contraseñas no coinciden");
-                var usuarios = context.Usuarios.ToList();
+                var usuarios = context.GetUsuarios();
                 foreach (var item in usuarios)
                 {
                     if (item.Correo == usuario.Correo)
@@ -98,14 +87,9 @@ namespace Oracon.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    usuario.Imagen = "/project/userperfil.png";
-                    usuario.Password = CreateHash(usuario.Password);
-                    context.Usuarios.Add(usuario);
-                    context.SaveChanges();
+                    context.SaveUser(usuario);
                     return View("Index");
                 }
-                ViewBag.Categorias = context.Categorias.ToList();
-                ViewBag.Roles = context.Roles.ToList();
                 return View(usuario);
             }
             else
@@ -115,12 +99,12 @@ namespace Oracon.Controllers
         [HttpGet]
         public IActionResult EditarUsuario(int idUser)
         {
+            ViewBag.Categorias = context.GetCategorias();
+            ViewBag.Roles = context.GetRoles();
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 1)
             {
-                ViewBag.Categorias = context.Categorias.ToList();
-                ViewBag.Roles = context.Roles.ToList();
-                var usuarios = context.Usuarios.Where(o => o.Id == idUser).FirstOrDefault();
+                var usuarios = context.GetUsuarioId(idUser);
                 if (usuarios != null)
                     return View(usuarios);
                 return View("Error");
@@ -132,10 +116,12 @@ namespace Oracon.Controllers
         [HttpPost]
         public IActionResult EditarUsuario(Usuario usuario)
         {
+            ViewBag.Categorias = context.GetCategorias();
+            ViewBag.Roles = context.GetRoles();
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 1)
             {
-                var usuarios = context.Usuarios.Where(o => o.Id != usuario.Id).ToList();
+                var usuarios = context.GetUsuariosIdNo(usuario.Id);
                 foreach (var item in usuarios)
                 {
                     if (item.Correo == usuario.Correo)
@@ -146,12 +132,9 @@ namespace Oracon.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    context.Usuarios.Update(usuario);
-                    context.SaveChanges();
+                    context.UpdateUser(usuario);
                     return View("Index");
                 }
-                ViewBag.Categorias = context.Categorias.ToList();
-                ViewBag.Roles = context.Roles.ToList();
                 return View(usuario);
             }
             else
@@ -159,19 +142,18 @@ namespace Oracon.Controllers
         }
 
         [HttpGet]
-        public ActionResult EliminarUsuario(int idUser)
+        public ActionResult EliminarUsuario(int idUsuario)
         {
+            ViewBag.Categorias = context.GetCategorias();
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 1)
             {
-                var usuarios = context.Usuarios.Where(o => o.Id == idUser).FirstOrDefault();
+                var usuarios = context.GetUsuarioId(idUsuario);
                 if (usuarios != null)
                 {
-                    context.Usuarios.Remove(usuarios);
-                    context.SaveChanges();
+                    context.DeleteUser(usuarios);
                     return View("Index");
                 }
-                ViewBag.Categorias = context.Categorias.ToList();
                 return View("Error");
             }
             else
@@ -181,15 +163,12 @@ namespace Oracon.Controllers
         [HttpGet]
         public IActionResult Cursos(int idCategoria)
         {
+            ViewBag.Categorias = context.GetCategorias();
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 1)
             {
-                var cursos = context.Cursos.
-                    Where(o => o.IdCategoria == idCategoria).
-                    Include(o => o.Categoria).
-                    Include(o => o.Docente).
-                    ToList();
-                ViewBag.Categorias = context.Categorias.ToList();
+                var cursos = context.GetCursos(idCategoria);
+                
                 foreach (var item in ViewBag.Categorias)
                 {
                     if (idCategoria == item.Id)
@@ -206,11 +185,11 @@ namespace Oracon.Controllers
         [HttpGet]
         public IActionResult CrearCursos()
         {
+            ViewBag.Categorias = context.GetCategorias();
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 1)
             {
-                ViewBag.Docentes = context.Usuarios.Where(o => o.IdRol == 2).ToList();
-                ViewBag.Categorias = context.Categorias.ToList();
+                ViewBag.Docentes = context.GetUsuariosRol(2);
                 return View(new Curso());
             }
             else
@@ -220,18 +199,16 @@ namespace Oracon.Controllers
         [HttpPost]
         public IActionResult CrearCursos(Curso curso)
         {
+            ViewBag.Categorias = context.GetCategorias();
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 1)
             {
                 if (ModelState.IsValid)
                 {
-                    curso.Imagen = "/project/icono.jpg";
-                    context.Cursos.Add(curso);
-                    context.SaveChanges();
+                    context.SaveCurso(curso);
                     return View("Index");
                 }
-                ViewBag.Docentes = context.Usuarios.Where(o => o.IdRol == 2).ToList();
-                ViewBag.Categorias = context.Categorias.ToList();
+                ViewBag.Docentes = context.GetUsuariosRol(2);
                 return View(curso);
             }
             else
@@ -244,10 +221,9 @@ namespace Oracon.Controllers
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 1)
             {
-                var categorias = context.Categorias.ToList();
-                ViewBag.Docentes = context.Usuarios.Where(o => o.IdRol == 2).ToList();
-                ViewBag.Categorias = categorias;
-                var curso = context.Cursos.Where(o => o.Id == idCurso).FirstOrDefault();
+                ViewBag.Docentes = context.GetUsuariosRol(2);
+                ViewBag.Categorias = context.GetCategorias();
+                var curso = context.GetCurso(idCurso);
                 if (curso != null)
                     return View(curso);
                 return View("Error");
@@ -262,14 +238,13 @@ namespace Oracon.Controllers
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 1)
             {
+                ViewBag.Docentes = context.GetUsuariosRol(2);
+                ViewBag.Categorias = context.GetCategorias();
                 if (ModelState.IsValid)
                 {
-                    context.Cursos.Update(curso);
-                    context.SaveChanges();
+                    context.UpdateCurso(curso);
                     return View("Index");
                 }
-                ViewBag.Docentes = context.Usuarios.Where(o => o.IdRol == 2).ToList();
-                ViewBag.Categorias = context.Categorias.ToList();
                 return View(curso);
             }
             else
@@ -279,16 +254,14 @@ namespace Oracon.Controllers
         [HttpGet]
         public ActionResult EliminarCurso(int idCurso)
         {
+            ViewBag.Categorias = context.GetCategorias();
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 1)
             {
-                var categorias = context.Categorias.ToList();
-                ViewBag.Categorias = categorias;
-                var cursos = context.Cursos.Where(o => o.Id == idCurso).FirstOrDefault();
+                var cursos = context.GetCurso(idCurso);
                 if (cursos != null)
                 {
-                    context.Cursos.Remove(cursos);
-                    context.SaveChanges();
+                    context.DeleteCurso(cursos);
                     return View("Index");
                 }
                 return View("Error");
@@ -300,24 +273,14 @@ namespace Oracon.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
+            ViewBag.Categorias = context.GetCategorias();
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 1) 
             {
-                var categorias = context.Categorias.ToList();
-                ViewBag.Categorias = categorias;
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
             else
                 return RedirectToAction("Error", "Home");
-        }
-
-        protected string CreateHash(string input)
-        {
-            input += configuration.GetValue<string>("Token");
-            var sha = SHA512.Create();
-            var bytes = Encoding.Default.GetBytes(input);
-            var hash = sha.ComputeHash(bytes);
-            return Convert.ToBase64String(hash);
         }
     }
 }

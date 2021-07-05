@@ -1,0 +1,122 @@
+﻿@{
+    ViewData["Title"] = ViewBag.Nombre;
+    var cursos = (List<Curso>)Model;
+}
+
+<section class="seccion contenedor">
+    <form asp-action="Categorias" method="get">
+        <div class="">
+            <input style="background-size:cover; " type="search" name="search" value="">
+            <button class="button" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Buscar</button>
+        </div>
+    </form>
+</section>
+
+<section class="seccion">
+    <ul class="lista-precios clearfix">
+        @foreach (var item in cursos)
+        {
+            <li>
+                <div class="tabla-precio">
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        var favorito = false;
+                        var favoritos = (List<Favoritos>)ViewBag.Favoritos;
+                        <div class="porcomprar">
+                            @foreach (var fav in favoritos)
+                            {
+                                if (item.Id == fav.IdCurso)
+                                    favorito = true;
+                            }
+                            @if (favorito)
+                            {
+                                <h3>@item.Nombre<a id="favorite_@item.Id" class="button-favorite float-right"><i onclick="nofavorite(@item.Id)" class="fa fa-heart" aria-hidden="true"></i></a> </h3>
+                            }
+                            else
+                            {
+                                <h3>@item.Nombre<a id="favorite_@item.Id" class="button-favorite float-right"><i onclick="favorite(@item.Id)" class="fa fa-heart-o" aria-hidden="true"></i></a> </h3>
+                            }
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="porcomprar">
+                            <h3>@item.Nombre</h3>
+                        </div>
+                    }
+                    <a href="/Curso/Detalle?idCurso=@item.Id">
+                        <img alt="@item.Nombre" src="@item.Imagen">
+                    </a>
+                    <ul>
+                        <li><i class="fa fa-user" aria-hidden="true"></i> @item.Docente.Nombres @*@item.Docente.Apellidos*@</li>
+                        <li><i class="fa fa-book" aria-hidden="true"></i> @item.Categoria.Nombre</li>
+                        @if (item.Estado)
+                        {
+                            <li><i class="fa fa-check-circle" aria-hidden="true"></i> Concluido</li>
+                        }
+                        else
+                        {
+                            <li><i class="fa fa-hourglass-end" aria-hidden="true"></i> En progreso</li>
+                        }
+                    </ul>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        var comprado = false;
+                        var pagado = false;
+                        var compras = (List<CursoUsuario>)ViewBag.Compras;
+                        @foreach (var compra in compras)
+                        {
+                            if (item.Id == compra.IdCurso)
+                            {
+                                if (compra.Pagado)
+                                {
+                                    pagado = true;
+                                    comprado = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    comprado = true;
+                                    break;
+                                }
+                            }
+                        }
+                        @if (comprado && pagado)
+                        {
+                            <button id="compra_@item.Id" class="button">COMPRADO</button>
+                        }
+                        else if (comprado && !pagado)
+                        {
+                            <button id="compra_@item.Id" class="button">CANCELAR</button>
+                        }
+                        else
+                        {
+                            if (item.Precio > 0)
+                            {
+                                <button id="compra_@item.Id" class="button" onclick="Comprar(@item.Id)">S / @item.Precio</button>
+                            }
+                            else
+                            {
+                                <button id="compra_@item.Id" class="button" onclick="Comprar(@item.Id)">GRATIS</button>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (item.Precio > 0)
+                        {
+                            <a class="button" href="/User/Login">S / @item.Precio</a>
+                        }
+                        else
+                        {
+                            <a class="button" href="/User/Login">GRATIS</a>
+                        }
+                    }
+                </div>
+            </li>
+        }
+    </ul>
+</section>

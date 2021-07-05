@@ -1,18 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Oracon.Maps;
 using Oracon.Models;
+using Oracon.Repositorio;
 using Oracon.Servicios;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Oracon.Controllers
 {
@@ -20,16 +12,12 @@ namespace Oracon.Controllers
     public class DocenteController : Controller
     {
         private readonly IClaimService claim;
-        private readonly Oracon_Context context;
-        private readonly IConfiguration configuration;
-        public readonly IWebHostEnvironment hosting;
+        private readonly IDocenteRepo context;
 
-        public DocenteController(Oracon_Context context, IClaimService claim, IConfiguration configuration, IWebHostEnvironment hosting)
+        public DocenteController(IDocenteRepo context, IClaimService claim)
         {
             this.context = context;
             this.claim = claim;
-            this.configuration = configuration;
-            this.hosting = hosting;
         }
 
         [HttpGet]
@@ -38,8 +26,7 @@ namespace Oracon.Controllers
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 2)
             {
-                var categorias = context.Categorias.ToList();
-                ViewBag.Categorias = categorias;
+                ViewBag.Categorias = context.GetCategorias();
                 return View();
             }
             else
@@ -52,13 +39,9 @@ namespace Oracon.Controllers
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 2)
             {
-                var categorias = context.Categorias.ToList();
-                ViewBag.Categorias = categorias;
-                var cursos = context.Cursos.
-                    Where(o => o.IdCategoria == idCategoria && o.IdDocente == claim.GetLoggedUser().Id).
-                    Include(o => o.Categoria).
-                    ToList();
-                foreach (var item in categorias)
+                ViewBag.Categorias = context.GetCategorias();
+                var cursos = context.GetCursosCategoriaDocente(idCategoria, claim.GetLoggedUser().Id);
+                foreach (var item in ViewBag.Categorias)
                 {
                     if (idCategoria == item.Id)
                         ViewBag.Nombre = item.Nombre;
@@ -77,8 +60,7 @@ namespace Oracon.Controllers
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 2)
             {
-                var categorias = context.Categorias.ToList();
-                ViewBag.Categorias = categorias;
+                ViewBag.Categorias = context.GetCategorias();
                 return View(new Curso());
             }
             else
@@ -91,18 +73,14 @@ namespace Oracon.Controllers
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 2)
             {
-                curso.IdDocente = claim.GetLoggedUser().Id;
+                ViewBag.Categorias = context.GetCategorias();
+                if (curso.Precio < 0)
+                    ModelState.AddModelError("Precio", "El precio no puede ser negativo");
                 if (ModelState.IsValid)
                 {
-                    if (image != null)
-                        curso.Imagen = SaveFile(image);
-                    else
-                        curso.Imagen = "/project/icono.jpg";
-                    context.Cursos.Add(curso);
-                    context.SaveChanges();
+                    context.SaveCurso(curso, claim.GetLoggedUser().Id, image);
                     return View("Index");
                 }
-                ViewBag.Categorias = context.Categorias.ToList();
                 return View(curso);
             }
             else
@@ -115,11 +93,8 @@ namespace Oracon.Controllers
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 2)
             {
-                var categorias = context.Categorias.ToList();
-                ViewBag.Categorias = categorias;
-                var curso = context.Cursos.
-                    Where(o => o.Id == idCurso && o.IdDocente == claim.GetLoggedUser().Id).
-                    FirstOrDefault();
+                ViewBag.Categorias = context.GetCategorias();
+                var curso = context.GetCursoIdUsuario(idCurso, claim.GetLoggedUser().Id);
                 if (curso != null)
                     return View(curso);
                 return View("Error");
@@ -134,17 +109,12 @@ namespace Oracon.Controllers
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 2)
             {
+                ViewBag.Categorias = context.GetCategorias();
                 if (ModelState.IsValid)
                 {
-                    if (image != null)
-                        curso.Imagen = SaveFile(image);
-                    else
-                        curso.Imagen = "/project/icono.jpg";
-                    context.Cursos.Update(curso);
-                    context.SaveChanges();
+                    context.UpdateCurso(curso, image);
                     return View("Index");
                 }
-                ViewBag.Categorias = context.Categorias.ToList();
                 return View(curso);
             }
             else
@@ -157,15 +127,11 @@ namespace Oracon.Controllers
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 2)
             {
-                var categorias = context.Categorias.ToList();
-                ViewBag.Categorias = categorias;
-                var cursos = context.Cursos.
-                    Where(o => o.Id == idCurso && o.IdDocente == claim.GetLoggedUser().Id).
-                    FirstOrDefault();
-                if (cursos != null)
+                ViewBag.Categorias = context.GetCategorias();
+                var curso = context.GetCursoIdUsuario(idCurso, claim.GetLoggedUser().Id);
+                if (curso != null)
                 {
-                    context.Cursos.Remove(cursos);
-                    context.SaveChanges();
+                    context.DeleteCurso(curso);
                     return View("Index");
                 }
                 return View("Error");
@@ -180,28 +146,11 @@ namespace Oracon.Controllers
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 2)
             {
-                var categorias = context.Categorias.ToList();
-                ViewBag.Categorias = categorias;
+                ViewBag.Categorias = context.GetCategorias();
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
             else
                 return RedirectToAction("Error", "Home");
-        }
-
-        protected string SaveFile(IFormFile file)
-        {
-            string relativePath = "";
-
-            if (file.Length > 0 && (file.ContentType == "image/jpeg" || file.ContentType == "image/png" || file.ContentType == "image/gif"))
-            {
-                relativePath = Path.Combine("FilesBD", file.FileName);
-                var filePath = Path.Combine(hosting.WebRootPath, relativePath);
-                var stream = new FileStream(filePath, FileMode.Create);
-                file.CopyTo(stream);
-                stream.Close();
-            }
-
-            return "/" + relativePath.Replace('\\', '/');
         }
     }
 }

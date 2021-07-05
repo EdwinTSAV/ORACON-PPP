@@ -1,0 +1,62 @@
+﻿@{
+    Layout = "~/Views/Shared/Ajustes_Layout.cshtml";
+    ViewData["Title"] = "Seguridad";
+    var usuario = (Usuario)Model;
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Ajustes y perfil</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/ajustes/">Perfil</a></li>
+        <li class="breadcrumb-item active">Seguridad</li>
+    </ol>
+    <h3>Cambiar correo y usuario</h3>
+    <div class="row">
+        <form action="/Ajustes/Security" class="col-12" method="post">
+            <input type="hidden" name="Password" value="@usuario.Password" />
+            <input type="hidden" name="Nombres" value="@usuario.Nombres" />
+            <input type="hidden" name="Apellidos" value="@usuario.Apellidos" />
+            <div class="mb-3">
+                <label class="form-label" for="Correo">Correo</label>
+                <input type="email" class="form-control" placeholder="Correo electronico" name="Correo" value="@usuario.Correo" required />
+                <p class="alert-danger">@Html.ValidationMessage("Correo")</p>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="Username">Username</label>
+                <input type="text" class="form-control" placeholder="Nombre de Usuario" name="Username" value="@usuario.Username" required />
+                <p class="alert-danger">@Html.ValidationMessage("Username")</p>
+            </div>
+            <div class="float-right">
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
+            </div>
+        </form>
+    </div>
+    <h3>Cambiar Contraseña</h3>
+    <div class="row">
+        <form action="/Ajustes/Password" class="col-12" method="post">
+            <input type="hidden" name="Nombres" value="@usuario.Nombres" />
+            <input type="hidden" name="Apellidos" value="@usuario.Apellidos" />
+            <input type="hidden" name="Correo" value="@usuario.Correo" />
+            <input type="hidden" name="Username" value="@usuario.Username" />
+
+            <div class="mb-3">
+                <label class="form-label" for="passwordConf">Contraseña actual</label>
+                <input type="password" class="form-control" placeholder="Escribe la contraseña actual" name="passwordActual" required />
+                <p class="alert-danger">@Html.ValidationMessage("passwordActual")</p>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="Password">Nueva contraseña</label>
+                <input type="password" class="form-control" placeholder="Password" name="Password" required />
+                <p class="alert-danger">@Html.ValidationMessage("Password")</p>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="passwordConf">Confirmar nueva contraseña</label>
+                <input type="password" class="form-control" placeholder="Confirmar nueva contraseña" name="passwordConf" required />
+            </div>
+
+            <div class="float-right">
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>

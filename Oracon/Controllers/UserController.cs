@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Oracon.Models;
@@ -43,7 +42,9 @@ namespace Oracon.Controllers
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
-                HttpContext.SignInAsync(claimsPrincipal);
+                claim.SetHttpContext(HttpContext);
+                claim.Login(claimsPrincipal);
+
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -57,7 +58,8 @@ namespace Oracon.Controllers
         [HttpGet]
         public IActionResult LogOut()
         {
-            HttpContext.SignOutAsync();
+            claim.SetHttpContext(HttpContext);
+            claim.Logout();
             return RedirectToAction("Login");
         }
 
@@ -133,8 +135,10 @@ namespace Oracon.Controllers
         [HttpGet]
         public IActionResult StartRecover(string token)
         {
-            RecoverP recoverp = new RecoverP();
-            recoverp.Token = token;
+            RecoverP recoverp = new RecoverP
+            {
+                Token = token
+            };
 
             var users = context.GetUsuarioRecover(token);
             if (users == null || recoverp.Token == null || recoverp.Token.Trim().Equals(""))
@@ -164,13 +168,5 @@ namespace Oracon.Controllers
             }
             return RedirectToAction("Login");
         }
-        
-        //protected Usuario GetLoggedUser()
-        //{
-        //    var claim = HttpContext.User.Claims.FirstOrDefault();
-        //    var user = context.Usuarios.Where(o => o.Username == claim.Value).FirstOrDefault();
-        //    return user;
-        //}
-
     }
 }

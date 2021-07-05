@@ -1,13 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Oracon.Models;
-using Oracon.Maps;
-using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using Oracon.Servicios;
 using Oracon.Repositorio;
 
@@ -28,12 +21,8 @@ namespace Oracon.Controllers
         public IActionResult Index()
         {
             ViewBag.Categorias = context.GetCategorias();
-            if (HttpContext.User.Identity.IsAuthenticated)
-            {
-                claim.SetHttpContext(HttpContext);
-                var user = claim.GetLoggedUser();
-                ViewBag.User = user;
-            }
+            ViewBag.Docentes = context.GetDocentes();
+            ViewBag.Cursos = context.GetCursos();
             return View();
         }
 
@@ -41,12 +30,6 @@ namespace Oracon.Controllers
         public IActionResult Privacy()
         {
             ViewBag.Categorias = context.GetCategorias();
-            if (HttpContext.User.Identity.IsAuthenticated)
-            {
-                claim.SetHttpContext(HttpContext);
-                var user = claim.GetLoggedUser();
-                ViewBag.User = user;
-            }
             return View();
         }
 
@@ -55,12 +38,5 @@ namespace Oracon.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-        //protected Usuario GetLoggedUser()
-        //{
-        //    var claim = HttpContext.User.Claims.FirstOrDefault();
-        //    var user = context.Usuarios.Where(o => o.Username == claim.Value).FirstOrDefault();
-        //    return user;
-        //}
     }
 }

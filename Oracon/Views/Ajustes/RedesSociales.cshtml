@@ -1,0 +1,60 @@
+﻿@{
+    Layout = "~/Views/Shared/Ajustes_Layout.cshtml";
+    ViewData["Title"] = "Redes Sociales";
+    var usuario = (Usuario)Model;
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Ajustes y perfil</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/ajustes/">Perfil</a></li>
+        <li class="breadcrumb-item active">Redes Sociales</li>
+    </ol>
+    <div class="row">
+        <form action="/Ajustes/EditarRS" class="col-12" method="post">
+            <input type="hidden" name="Correo" value="@usuario.Correo" />
+            <input type="hidden" name="Username" value="@usuario.Username" />
+            <input type="hidden" name="Password" value="@usuario.Password" />
+            <input type="hidden" name="Nombres" value="@usuario.Nombres" />
+            <input type="hidden" name="Apellidos" value="@usuario.Apellidos" />
+            <div class="mb-3">
+                <label class="form-label" for="Nombres">Twitter</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon3">https://www.twitter.com/</span>
+                    <input type="text" class="form-control" placeholder="Twitter" name="Twitter" value="@usuario.Twitter" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="Nombres">Facebook</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon3">https://www.facebook.com/</span>
+                    <input type="text" class="form-control" placeholder="Facebook" name="Facebook" value="@usuario.Facebook" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="Nombres">LinkedIn</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon3">https://www.linkedin.com/</span>
+                    <input type="text" class="form-control" placeholder="LinkedIn" name="LinkedIn" value="@usuario.LinkedIn" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="Nombres">YouTube</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon3">https://www.youtube.com/</span>
+                    <input type="text" class="form-control" placeholder="YouTube" name="YouTube" value="@usuario.YouTube" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="Nombres">Instagram</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon3">https://www.instagram.com/</span>
+                    <input type="text" class="form-control" placeholder="Instagram" name="Instagram" value="@usuario.Instagram" />
+                </div>
+            </div>
+            <div class="float-right">
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>

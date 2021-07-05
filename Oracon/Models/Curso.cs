@@ -22,6 +22,7 @@ namespace Oracon.Models
 
         [Required(ErrorMessage = "Debe seleccionar uno")]
         public int IdCategoria { get; set; }
+        public bool Estado { get; set; }
 
         public Usuario Docente { get; set; }
 

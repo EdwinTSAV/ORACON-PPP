@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
     ViewData["Title"] = "Cursos";
     var curso = (Curso)Model;
 }
@@ -13,6 +13,7 @@
     <form action="/admin/EditarCurso" class="col-12" method="post">
         <input type="hidden" name="Id" value="@curso.Id" />
         <input type="hidden" name="Imagen" value="@curso.Imagen" />
+        <input type="hidden" name="Estado" value="@curso.Estado" />
         <div class="mb-3">
             <label class="form-label" for="Nombre">Nombre</label>
             <input type="text" class="form-control" placeholder="Nombre" name="Nombre" value="@curso.Nombre" required />

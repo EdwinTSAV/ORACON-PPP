@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
     ViewData["Title"] = "Cursos";
 }
 
@@ -22,7 +22,11 @@
         </div>
         <div class="mb-3">
             <label class="form-label" for="Precio">Precio</label>
-            <input type="text" class="form-control" placeholder="Precio" name="Precio" value="@Model.Precio" required />
+            <div class="input-group mb-3">
+                <span class="input-group-text">S/</span>
+                <input type="text" class="form-control" placeholder="Precio" name="Precio" value="@Model.Precio" required />
+                <span class="input-group-text">.00</span>
+            </div>
             <p class="alert-danger">@Html.ValidationMessage("Precio")</p>
         </div>
         <div class="mb-3">

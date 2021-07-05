@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
     ViewData["Title"] = "Usuarios";
     var usuarios = (List<Usuario>)Model;
 }
@@ -53,7 +53,7 @@
                             <td>@item.Username</td>
                             <td class="float-right">
                                 <a class="btn btn-success btn-sm" href="/admin/EditarUsuario?idUser=@item.Id"><i class="fas fa-edit"></i></a>
-                                <a class="btn btn-danger btn-sm" href="/admin/EliminarUsuario?idUser=@item.Id"><i class="fas fa-trash-alt"></i></a>
+                                <a class="btn btn-danger btn-sm" onclick="Eliminar(@item.Id ,'usuario')"><i class="fas fa-trash-alt"></i></a>
                             </td>
                         </tr>
                     }

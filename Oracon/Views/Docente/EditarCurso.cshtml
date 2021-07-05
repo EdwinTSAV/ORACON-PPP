@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "~/Views/Shared/Docente/_Layout.cshtml";
+    Layout = "~/Views/Shared/Docente_Layout.cshtml";
     ViewData["Title"] = "Cursos";
     var curso = (Curso)Model;
 }
@@ -13,9 +13,10 @@
     <form action="/docente/EditarCurso" enctype="multipart/form-data" class="col-12" method="post">
         <input type="hidden" name="Id" value="@curso.Id" />
         <input type="hidden" name="IdDocente" value="@curso.IdDocente" />
+        <input type="hidden" name="Imagen" value="@curso.Imagen" />
         <div class="mb-3">
             <label class="form-label" for="image">Imagen</label>
-            <input type="file" class="form-control" name="image" />
+            <input type="file" class="form-control" name="image" accept="image/x-png,image/gif,image/jpeg" />
         </div>
         <div class="mb-3">
             <label class="form-label" for="Nombre">Nombre</label>

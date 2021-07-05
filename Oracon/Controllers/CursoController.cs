@@ -1,47 +1,103 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Oracon.Maps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Oracon.Repositorio;
+using Oracon.Servicios;
 
 namespace Oracon.Controllers
 {
     public class CursoController : Controller
     {
-        private readonly Oracon_Context context;
-
-        public CursoController(Oracon_Context context)
+        private readonly ICursoRepo context;
+        private readonly IClaimService claim;
+        public CursoController(ICursoRepo context, IClaimService claim)
         {
             this.context = context;
+            this.claim = claim;
         }
 
-        public IActionResult Categorias(int idCategoria)
+        public IActionResult Cursos(int idCategoria, int idDocente)
         {
-            ViewBag.Categorias = context.Categorias.ToList();
-
-            var cursos = context.Cursos.
-                Include(o => o.Docente).
-                Include(o => o.Categoria).
-                ToList();
-            foreach (var item in ViewBag.Categorias)
+            ViewBag.Nombre = "Cursos";
+            ViewBag.Categorias = context.GetCategorias();
+            var cursos = context.GetCursos();
+            if (idDocente > 0)
             {
-                if (item.Id == idCategoria)
+                var docente = context.GetDocente(idDocente);
+                cursos = context.GetCursoDocentes(idDocente);
+                ViewBag.Nombre = docente.Nombres;
+                if (docente == null)
+                    RedirectToAction("Error", "Home");
+            }
+            else if(idCategoria > 0)
+            {
+                foreach (var item in ViewBag.Categorias)
                 {
-                    cursos = cursos.
-                        Where(o => o.IdCategoria == idCategoria).
-                        ToList();
+                    if (item.Id == idCategoria)
+                    {
+                        cursos = context.GetCursosCategoria(idCategoria);
+                        ViewBag.Nombre = item.Nombre;
+                    }
                 }
+            }
+            if (User.Identity.IsAuthenticated)
+            {
+                claim.SetHttpContext(HttpContext);
+                ViewBag.Favoritos = context.GetFavoritos(claim.GetLoggedUser().Id);
+                ViewBag.Compras = context.GetCursoUsuarios(claim.GetLoggedUser().Id);
             }
             return View(cursos);
         }
 
-        public IActionResult Docentes(int idCategoria)
+        public IActionResult Detalle(int idCurso)
         {
-            ViewBag.Categorias = context.Categorias.ToList();
-            var docentes = context.Usuarios.Where(o => o.IdRol == 2).ToList();
+            ViewBag.Categorias = context.GetCategorias();
+            var curso = context.GetCurso(idCurso);
+            if (User.Identity.IsAuthenticated)
+            {
+                claim.SetHttpContext(HttpContext);
+                ViewBag.Favoritos = context.GetFavoritos(claim.GetLoggedUser().Id);
+                ViewBag.Compras = context.GetCursoUsuarios(claim.GetLoggedUser().Id);
+            }
+            ViewBag.Nombre = "Cursos";
+            return View(curso);
+        }
+
+        public IActionResult Docentes()
+        {
+            ViewBag.Categorias = context.GetCategorias();
+            var docentes = context.GetDocentes();
             return View(docentes);
+        }
+
+        [HttpGet]
+        public void Favoritos(int idCurso)
+        {
+            claim.SetHttpContext(HttpContext);
+            var favorito = context.GetFavorito(claim.GetLoggedUser().Id, idCurso);
+            if (favorito != null)
+            {
+                context.DeleteFavorito(favorito);
+                ModelState.AddModelError("Elimina","Curso eliminado de favoritos");
+            }
+            if (ModelState.IsValid)
+                context.SaveFavorito(idCurso, claim.GetLoggedUser().Id);
+        }
+
+        [HttpGet]
+        public void Compras(int idCurso)
+        {
+            claim.SetHttpContext(HttpContext);
+            var compras = context.GetCompra(claim.GetLoggedUser().Id, idCurso);
+            var curso = context.GetCurso(idCurso);
+            if (compras != null)
+            {
+                context.DeleteCursoUsuario(compras);
+                ModelState.AddModelError("Existe", "Ya Comprado");
+            }
+            if (ModelState.IsValid)
+                if (curso.Precio > 0)
+                    context.SaveCursoUsuario(idCurso, claim.GetLoggedUser().Id);
+                else
+                    context.SaveCursoUsuarioGratuito(idCurso, claim.GetLoggedUser().Id);
         }
     }
 }

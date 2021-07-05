@@ -42,8 +42,8 @@ function mostrar() {
 
 window.addEventListener('load', function () {
     new Glider(document.querySelector('.glider'), {
-        slidesToShow: 1,
-        slidesToScroll: 1,
+        slidesToShow: 2,
+        slidesToScroll: 2,
         draggable: true,
         arrows: {
             prev: '.glider-prev',
@@ -52,23 +52,32 @@ window.addEventListener('load', function () {
         responsive: [
             {
                 // screens greater than >= 700px
-                breakpoint: 700,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2,
-                    itemWidth: 150,
-                    duration: 0.25
-                }
-            }, {
-                // screens greater than >= 100px
-                breakpoint: 1000,
+                breakpoint: 600,
                 settings: {
                     slidesToShow: 3,
                     slidesToScroll: 3,
                     itemWidth: 150,
                     duration: 0.25
                 }
+            }, {
+                // screens greater than >= 100px
+                breakpoint: 900,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 4,
+                    itemWidth: 150,
+                    duration: 0.25
+                }
+            }, {
+                // screens greater than >= 100px
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 5,
+                    slidesToScroll: 5,
+                    itemWidth: 150,
+                    duration: 0.25
+                }
             }
         ]
-    },);
+    });
 });

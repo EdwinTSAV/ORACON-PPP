@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "~/Views/Shared/Ajustes_Layout.cshtml";
+    ViewData["Title"] = "Datos Generales";
+    var usuario = (Usuario)Model;
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Ajustes y perfil</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Datos Generales</li>
+    </ol>
+    <div class="breadcrumb mb-4">
+        <img id="img" width="200" height="200" src="@usuario.Imagen" class="img-thumbnail" alt="@usuario.Nombres">
+    </div>
+    <div class="row float-right">
+        <form action="/Ajustes/Editar" enctype="multipart/form-data" class="col-12" method="post">
+            <input type="hidden" name="Correo" value="@usuario.Correo" />
+            <input type="hidden" name="Username" value="@usuario.Username" />
+            <input type="hidden" name="Password" value="@usuario.Password" />
+            <div class="mb-3">
+                <label class="form-label" for="image">Imagen</label>
+                <input id="file" onchange="mostrar()" type="file" class="form-control" name="image" accept="image/x-png,image/gif,image/jpeg" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="Nombres">Nombres</label>
+                <input type="text" class="form-control" placeholder="Nombres" name="Nombres" value="@usuario.Nombres" required />
+                <p class="alert-danger">@Html.ValidationMessage("Nombres")</p>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="Apellidos">Apellidos</label>
+                <input type="text" class="form-control" placeholder="Apellidos" name="Apellidos" value="@usuario.Apellidos" required />
+                <p class="alert-danger">@Html.ValidationMessage("Apellidos")</p>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="Celular">Celular</label>
+                <input type="text" class="form-control" placeholder="Celular" name="Celular" value="@usuario.Celular" />
+                <p class="alert-danger">@Html.ValidationMessage("Celular")</p>
+            </div>
+            <div class="float-right">
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>

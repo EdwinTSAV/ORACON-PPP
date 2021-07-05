@@ -20,7 +20,6 @@ namespace Oracon
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
@@ -32,6 +31,10 @@ namespace Oracon
             services.AddTransient<IClaimService, ClaimService>();
             services.AddTransient<IUserRepo, UserRepo>();
             services.AddTransient<IHomeRepo, HomeRepo>();
+            services.AddTransient<IAdminRepo, AdminRepo>();
+            services.AddTransient<IDocenteRepo, DocenteRepo>();
+            services.AddTransient<IAjustesRepo, AjustesRepo>();
+            services.AddTransient<ICursoRepo, CursoRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

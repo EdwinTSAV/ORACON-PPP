@@ -24,3 +24,112 @@ window.addEventListener('DOMContentLoaded', event => {
     }
 
 });
+
+//Eliminar objetos (usuarios y cursos)
+
+function Eliminar(id, objeto) {
+    Swal.fire({
+        title: '¿Estas seguro?',
+        text: "Eliminaras un " + objeto,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, ¡Eliminar!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "/admin/eliminar" + objeto + "?id" + objeto + "=" + id,
+                type: "get"
+            });
+            Swal.fire({
+                title: '¡Eliminado!',
+                text: 'Objeto eliminado correctamente',
+                icon: 'success',
+                confirmButtonText: 'ok'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.reload();
+                }
+            })
+        }
+    });
+}
+
+//Eliminar favoritos
+
+function EliminarF(id) {
+    Swal.fire({
+        title: '¿Estas seguro?',
+        text: "Quitaras este curso de favoritos",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, ¡Eliminar!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "/Curso/Favoritos?idCurso=" + id,
+                type: "get"
+            });
+            Swal.fire({
+                title: '¡Eliminado!',
+                text: 'Este curso ya no estara en favoritos',
+                icon: 'success',
+                confirmButtonText: 'ok'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.reload();
+                }
+            })
+        }
+    });
+}
+
+//Eliminar cesta
+
+function Comprar(id) {
+    Swal.fire({
+        title: 'Eliminar de la cesta?',
+        text: "Quitar este curso",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, quitar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "/Curso/Compras?idCurso=" + id,
+                type: "get"
+            });
+            Swal.fire({
+                title: '¡Eliminado!',
+                text: 'Este curso ya no esta en tu cesta',
+                icon: 'success',
+                confirmButtonText: 'ok'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.reload();
+                }
+            })
+        }
+    });
+};
+
+// SELECCION DE FOTO //
+$(document).on("click", "#add-photo", function () {
+    $("#file").click();
+});
+
+function mostrar() {
+    var archivo = document.getElementById("file").files[0];
+    var reader = new FileReader();
+    if (file) {
+        reader.readAsDataURL(archivo);
+        reader.onloadend = function () {
+            document.getElementById("img").src = reader.result;
+        }
+    }
+}

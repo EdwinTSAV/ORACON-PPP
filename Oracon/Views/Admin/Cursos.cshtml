@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
     ViewData["Title"] = "Cursos";
     var cursos = (List<Curso>)Model;
 }
@@ -21,7 +21,7 @@
                     <tr>
                         <th></th>
                         <th>Nombre</th>
-                        <th>Descripcion</th>
+                        <th>Estado</th>
                         <th>Precio</th>
                         <th>Docente</th>
                         <th></th>
@@ -31,7 +31,7 @@
                     <tr>
                         <th></th>
                         <th>Nombre</th>
-                        <th>Descripcion</th>
+                        <th>Estado</th>
                         <th>Precio</th>
                         <th>Docente</th>
                         <th></th>
@@ -43,12 +43,12 @@
                         <tr>
                             <td><img width="25" src="@item.Imagen" alt=""></td>
                             <td>@item.Nombre</td>
-                            <td>@item.Descripcion</td>
+                            <td>@item.Estado</td>
                             <td>@item.Precio</td>
                             <td>@item.Docente.Nombres @item.Docente.Apellidos</td>
                             <td class="float-right">
                                 <a class="btn btn-success btn-sm" href="/admin/EditarCurso?idCurso=@item.Id"><i class="fas fa-edit"></i></a>
-                                <a class="btn btn-danger btn-sm" href="/admin/EliminarCurso?idCurso=@item.Id"><i class="fas fa-trash-alt"></i></a>
+                                <a class="btn btn-danger btn-sm" onclick="Eliminar(@item.Id ,'curso')"><i class="fas fa-trash-alt"></i></a>
                             </td>
                         </tr>
                     }

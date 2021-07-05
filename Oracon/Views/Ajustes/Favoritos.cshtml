@@ -1,19 +1,19 @@
 ﻿@{
-    Layout = "~/Views/Shared/Docente_Layout.cshtml";
-    ViewData["Title"] = "Docente";
-    var cursos = (List<Curso>)Model;
+    Layout = "~/Views/Shared/Ajustes_Layout.cshtml";
+    ViewData["Title"] = "Favoritos";
+    var favoritos = (List<Favoritos>)Model;
 }
 
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Cursos - @ViewBag.Nombre</h1>
+    <h1 class="mt-4">Favoritos</h1>
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="/admin/">Dashboard</a></li>
-        <li class="breadcrumb-item active">@ViewBag.Nombre</li>
+        <li class="breadcrumb-item"><a href="/admin/">Perfil</a></li>
+        <li class="breadcrumb-item active">Favoritos</li>
     </ol>
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
-            Tabla @ViewBag.Nombre
+            Tabla de Favoritos
         </div>
         <div class="card-body">
             <table id="datatablesSimple">
@@ -23,6 +23,7 @@
                         <th>Nombre</th>
                         <th>Estado</th>
                         <th>Precio</th>
+                        <th>Docente</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -32,20 +33,22 @@
                         <th>Nombre</th>
                         <th>Estado</th>
                         <th>Precio</th>
+                        <th>Docente</th>
                         <th></th>
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach (var item in cursos)
+                    @foreach (var item in favoritos)
                     {
                         <tr>
-                            <td><img width="25" src="@item.Imagen" alt=""></td>
-                            <td>@item.Nombre</td>
-                            <td>@item.Estado</td>
-                            <td>@item.Precio</td>
+                            <td><img width="25" src="@item.Cursos.Imagen" alt=""></td>
+                            <td>@item.Cursos.Nombre</td>
+                            <td>@item.Cursos.Estado</td>
+                            <td>@item.Cursos.Precio</td>
+                            <td>@item.Cursos.Docente.Nombres @item.Cursos.Docente.Apellidos</td>
                             <td class="float-right">
-                                <a class="btn btn-success btn-sm" href="/docente/EditarCurso?idCurso=@item.Id"><i class="fas fa-edit"></i></a>
-                                <a class="btn btn-danger btn-sm" onclick="Eliminar(@item.Id ,'curso')"><i class="fas fa-trash-alt"></i></a>
+                                <a class="btn btn-success btn-sm" href="/Curso/Detalle?idCurso=@item.Cursos.Id"><i class="far fa-eye"></i></a>
+                                <a class="btn btn-danger btn-sm" onclick="EliminarF(@item.Cursos.Id)" ><i class="fas fa-trash-alt"></i></a>
                             </td>
                         </tr>
                     }
