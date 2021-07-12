@@ -26,6 +26,8 @@ namespace Oracon.Repositorio
         void SaveCurso(Curso curso);
         void UpdateCurso(Curso curso);
         void DeleteCurso(Curso curso);
+        List<CursoUsuario> GetCompras();
+        void AceptaCompra(int idCompra);
     }
     public class AdminRepo : IAdminRepo
     {
@@ -131,6 +133,26 @@ namespace Oracon.Repositorio
             var bytes = Encoding.Default.GetBytes(input);
             var hash = sha.ComputeHash(bytes);
             return Convert.ToBase64String(hash);
+        }
+
+        public List<CursoUsuario> GetCompras()
+        {
+            return context.CursoUsuario
+                .Where(o => !o.Pagado)
+                .Include(o => o.Cursos)
+                .Include(o => o.Cursos.Docente)
+                .Include(o => o.Usuarios)
+                .ToList();
+        }
+
+        public void AceptaCompra(int idCompra)
+        {
+            var comprado = context.CursoUsuario
+                .Where(o => o.Id == idCompra)
+                .FirstOrDefault();
+            comprado.Pagado = true;
+            context.CursoUsuario.Update(comprado);
+            context.SaveChanges();
         }
     }
 }

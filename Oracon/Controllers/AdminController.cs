@@ -26,7 +26,8 @@ namespace Oracon.Controllers
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 1)
             {
-                return View();
+                var compras = context.GetCompras();
+                return View(compras);
             }
             else
                 return RedirectToAction("Error", "Home");
@@ -252,7 +253,7 @@ namespace Oracon.Controllers
         }
 
         [HttpGet]
-        public ActionResult EliminarCurso(int idCurso)
+        public IActionResult EliminarCurso(int idCurso)
         {
             ViewBag.Categorias = context.GetCategorias();
             claim.SetHttpContext(HttpContext);
@@ -268,6 +269,31 @@ namespace Oracon.Controllers
             }
             else
                 return RedirectToAction("Error", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult Compras()
+        {
+            ViewBag.Categorias = context.GetCategorias();
+            claim.SetHttpContext(HttpContext);
+            if (claim.GetLoggedUser().IdRol == 1)
+            {
+                var compras = context.GetCompras();
+                return View(compras);
+            }
+            else
+                return RedirectToAction("Error", "Home");
+        }
+
+        [HttpGet]
+        public void Comprado(int idCompra)
+        {
+            ViewBag.Categorias = context.GetCategorias();
+            claim.SetHttpContext(HttpContext);
+            if (claim.GetLoggedUser().IdRol == 1)
+            {
+                context.AceptaCompra(idCompra);
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -56,6 +56,37 @@ function Eliminar(id, objeto) {
     });
 }
 
+//Cursos pagados
+
+function Cancelado(id) {
+    Swal.fire({
+        title: 'Estas seguro?',
+        text: "Marcaras como comprado este curso",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Curso pagado!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "/admin/Comprado?idCompra=" + id,
+                type: "get"
+            });
+            Swal.fire({
+                title: 'Cancelado!',
+                text: 'Curso cancelado correctamente',
+                icon: 'success',
+                confirmButtonText: 'ok'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.reload();
+                }
+            })
+        }
+    });
+}
+
 //Eliminar favoritos
 
 function EliminarF(id) {

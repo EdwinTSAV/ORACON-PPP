@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Compras";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+    var compras = (List<CursoUsuario>)Model;
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Aceptar compras</h1>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Tabla de compras aun no realizadas
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Curso</th>
+                        <th>Usuario</th>
+                        <th>Docente</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th>Curso</th>
+                        <th>Usuario</th>
+                        <th>Docente</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in compras)
+                    {
+                        <tr>
+                            <td><img width="25" src="@item.Cursos.Imagen" alt=""></td>
+                            <td>@item.Cursos.Nombre</td>
+                            <td>@item.Usuarios.Nombres @item.Usuarios.Apellidos</td>
+                            <td>@item.Cursos.Docente.Nombres</td>
+                            <td class="float-right">
+                                <a class="btn btn-success btn-sm" onclick="Cancelado(@item.Id)" @*href="/admin/Comprado?idCompra=@item.Id"*@><i class="fas fa-money-check-alt"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
