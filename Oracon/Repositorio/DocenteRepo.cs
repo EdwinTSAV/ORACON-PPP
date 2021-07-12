@@ -17,6 +17,7 @@ namespace Oracon.Repositorio
         void SaveCurso(Curso curso, int idUser, IFormFile image);
         void UpdateCurso(Curso curso, IFormFile image);
         void DeleteCurso(Curso curso);
+        List<Curso> GetCursosProceso(int idUser);
     }
     public class DocenteRepo : IDocenteRepo
     {
@@ -86,6 +87,14 @@ namespace Oracon.Repositorio
             }
 
             return "/" + relativePath.Replace('\\', '/');
+        }
+
+        public List<Curso> GetCursosProceso(int idUser)
+        {
+            return context.Cursos.
+                    Where(o => !o.Estado && o.IdDocente == idUser).
+                    Include(o => o.Categoria).
+                    ToList();
         }
     }
 }

@@ -1,0 +1,61 @@
+﻿@{
+    Layout = "~/Views/Shared/Docente_Layout.cshtml";
+    ViewData["Title"] = "Detalle";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Crear Detalle de Curso</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/docente/">Dashboard</a></li>
+        <li class="breadcrumb-item active">Crear Detalle</li>
+    </ol>
+    <form action="/docente/DetalleCurso" enctype="multipart/form-data" class="col-12" method="post">
+        <div class="mb-3">
+            <label class="form-label" for="IdCurso">Selecciona un curso</label>
+            <select name="IdCurso" class="form-control" required>
+                <option value="">-- Selecciona un curso --</option>
+                @foreach (var item in ViewBag.Cursos)
+                {
+                    <option value="@item.Id">@item.Nombre</option>
+                }
+            </select>
+            <p class="alert-danger">@Html.ValidationMessage("IdCurso")</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="introduccion">Link de video introductorio al curso</label>
+            <input type="text" class="form-control" placeholder="Nombre" name="Nombre" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="Nombre">Lo que se aprendera</label>
+            <input type="text" class="form-control" placeholder="Nombre" name="Nombre" required />
+            <p class="alert-danger">@Html.ValidationMessage("Nombre")</p>
+        </div>
+        <h3 class="form-label" for="Descripcion">Contenido del curso</h3>
+        <div class="mb-3">
+            <label class="form-label" for="Descripcion">Elegir seccion o nueva seccion</label>
+            <input type="text" class="form-control" placeholder="Descripcion" name="Descripcion" required />
+            <p class="alert-danger">@Html.ValidationMessage("Descripcion")</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="introduccion">Nombre actividad</label>
+            <input type="text" class="form-control" placeholder="Nombre" name="Nombre" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="introduccion">Link de video de la actividad</label>
+            <input type="text" class="form-control" placeholder="Nombre" name="Nombre" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="introduccion">Requisitos</label>
+            <input type="text" class="form-control" placeholder="Nombre" name="Nombre" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="introduccion">Descripcion detallada</label>
+            <input type="text" class="form-control" placeholder="Nombre" name="Nombre" required />
+        </div>
+
+        <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
+        <a class="btn btn-danger" href="/docente/">Cancelar</a>
+    </form>
+</div>

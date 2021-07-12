@@ -6,7 +6,7 @@
 <div class="container-fluid px-4">
     <h1 class="mt-4">Crear nuevo Curso</h1>
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="/admin/">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="/docente/">Dashboard</a></li>
         <li class="breadcrumb-item active">Crear curso</li>
     </ol>
     <form action="/docente/CrearCursos" enctype="multipart/form-data" class="col-12" method="post">
@@ -45,6 +45,6 @@
             <p class="alert-danger">@Html.ValidationMessage("IdCategoria")</p>
         </div>
         <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
-        <a class="btn btn-danger" href="/admin/">Cancelar</a>
+        <a class="btn btn-danger" href="/docente/">Cancelar</a>
     </form>
 </div>

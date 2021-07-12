@@ -140,6 +140,34 @@ namespace Oracon.Controllers
                 return RedirectToAction("Error", "Home");
         }
 
+        [HttpGet]
+        public ActionResult DetalleCurso()
+        {
+            claim.SetHttpContext(HttpContext);
+            if (claim.GetLoggedUser().IdRol == 2)
+            {
+                ViewBag.Cursos = context.GetCursosProceso(claim.GetLoggedUser().Id);
+                ViewBag.Categorias = context.GetCategorias();
+                return View();
+            }
+            else
+                return RedirectToAction("Error", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult DetalleCurso(int f)
+        {
+            claim.SetHttpContext(HttpContext);
+            if (claim.GetLoggedUser().IdRol == 2)
+            {
+                ViewBag.Cursos = context.GetCursosProceso(claim.GetLoggedUser().Id);
+                ViewBag.Categorias = context.GetCategorias();
+                return View();
+            }
+            else
+                return RedirectToAction("Error", "Home");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
