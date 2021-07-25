@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Oracon.Models
 {
@@ -25,7 +26,7 @@ namespace Oracon.Models
         public bool Estado { get; set; }
 
         public Usuario Docente { get; set; }
-
         public Categoria Categoria { get; set; }
+        public List<Aprendizaje> Aprendizajes { get; set; }
     }
 }

@@ -9,53 +9,74 @@
         <li class="breadcrumb-item"><a href="/docente/">Dashboard</a></li>
         <li class="breadcrumb-item active">Crear Detalle</li>
     </ol>
-    <form action="/docente/DetalleCurso" enctype="multipart/form-data" class="col-12" method="post">
-        <div class="mb-3">
-            <label class="form-label" for="IdCurso">Selecciona un curso</label>
-            <select name="IdCurso" class="form-control" required>
-                <option value="">-- Selecciona un curso --</option>
-                @foreach (var item in ViewBag.Cursos)
-                {
-                    <option value="@item.Id">@item.Nombre</option>
-                }
-            </select>
-            <p class="alert-danger">@Html.ValidationMessage("IdCurso")</p>
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="introduccion">Link de video introductorio al curso</label>
-            <input type="text" class="form-control" placeholder="Nombre" name="Nombre" required />
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="Nombre">Lo que se aprendera</label>
-            <input type="text" class="form-control" placeholder="Nombre" name="Nombre" required />
-            <p class="alert-danger">@Html.ValidationMessage("Nombre")</p>
-        </div>
-        <h3 class="form-label" for="Descripcion">Contenido del curso</h3>
-        <div class="mb-3">
-            <label class="form-label" for="Descripcion">Elegir seccion o nueva seccion</label>
-            <input type="text" class="form-control" placeholder="Descripcion" name="Descripcion" required />
-            <p class="alert-danger">@Html.ValidationMessage("Descripcion")</p>
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="introduccion">Nombre actividad</label>
-            <input type="text" class="form-control" placeholder="Nombre" name="Nombre" required />
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="introduccion">Link de video de la actividad</label>
-            <input type="text" class="form-control" placeholder="Nombre" name="Nombre" required />
-        </div>
 
-        <div class="mb-3">
-            <label class="form-label" for="introduccion">Requisitos</label>
-            <input type="text" class="form-control" placeholder="Nombre" name="Nombre" required />
+    <div class="row">
+        <div class="col-xl-6 col-md-6">
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-body">
+                    <strong>Descripción</strong>
+                    <p>
+                        Eligue un curso y añade o edita la descripcion mas detallada al curso,
+                        recuerda que una buena descripción de lo que se quiere dar a concer del curso es muy importante,
+                        para que el estudiante sepa si realmente quiere comprar el curso, y si representa sus expectativas generales.
+                    </p>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="/Docente/Aprendizaje">Agregar</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
         </div>
-
-        <div class="mb-3">
-            <label class="form-label" for="introduccion">Descripcion detallada</label>
-            <input type="text" class="form-control" placeholder="Nombre" name="Nombre" required />
+        <div class="col-xl-6 col-md-6">
+            <div class="card bg-warning text-white mb-4">
+                <div class="card-body">
+                    <strong>Contenido del curso</strong>
+                    <p>
+                        Eligue un curso y añade o edita el contenido del curso,
+                        el contenido del curso es mejor dicho, el silabo del curso que sera lo que el estudiante estara interesado
+                        esta seccion se ira subiendo conforme se va desarrollando el curso.
+                    </p>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="/Docente/Aprendizaje">Agregar</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
-        <a class="btn btn-danger" href="/docente/">Cancelar</a>
-    </form>
+    <div class="row">
+        <div class="col-xl-6 col-md-6">
+            <div class="card bg-success text-white mb-4">
+                <div class="card-body">
+                    <strong>¿Que aprenderás?</strong>
+                    <p>
+                        Eligue un curso y añade o edita el aprendizaje final,
+                        o lo que se espera aprender finalizando el curso diriguido especialmente a los estudiantes
+                        y compradores del curso, buscando y tratando de cumplir sus expectativas.
+                    </p>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="/Docente/Aprendizaje">Agregar</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 col-md-6">
+            <div class="card bg-danger text-white mb-4">
+                <div class="card-body">
+                    <strong>Requisitos</strong>
+                    <p>
+                        Eligue un curso y añade o edita que requisitos tendra el curso,
+                        o que se necesita para llevar el curso con éxito, dando a conocer al estudiante,
+                        en lo que deberia de estar preparado antes de iniciar el curso y no tener complicaciones.
+                    </p>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="/Docente/Aprendizaje">Agregar</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

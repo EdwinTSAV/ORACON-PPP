@@ -20,6 +20,7 @@ namespace Oracon.Repositorio
         void SaveFavorito(int idCurso, int idUser);
         void DeleteFavorito(Favoritos favoritos);
         List<CursoUsuario> GetCursoUsuarios(int idUser);
+        List<Aprendizaje> GetAprendizajes(int idCurso);
         CursoUsuario GetCompra(int idUser, int idCurso);
         void SaveCursoUsuario(int idCurso, int idUser);
         void SaveCursoUsuarioGratuito(int idCurso, int idUser);
@@ -154,6 +155,11 @@ namespace Oracon.Repositorio
         {
             context.Remove(cursoUsuario);
             context.SaveChanges();
+        }
+
+        public List<Aprendizaje> GetAprendizajes(int idCurso)
+        {
+            return context.Aprendizajes.Where(o => o.IdCurso == idCurso).ToList();
         }
     }
 }

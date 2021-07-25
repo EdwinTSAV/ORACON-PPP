@@ -13,6 +13,7 @@ namespace Oracon.Maps
         public DbSet<Curso> Cursos { get; set; }
         public DbSet<Favoritos> Favoritos { get; set; }
         public DbSet<CursoUsuario> CursoUsuario { get; set; }
+        public DbSet<Aprendizaje> Aprendizajes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,6 +24,7 @@ namespace Oracon.Maps
             modelBuilder.ApplyConfiguration(new CursoMap());
             modelBuilder.ApplyConfiguration(new FavoritosMap());
             modelBuilder.ApplyConfiguration(new CursoUsuarioMap());
+            modelBuilder.ApplyConfiguration(new AprendizajeMap());
         }
     }
 }

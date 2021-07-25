@@ -18,6 +18,8 @@ namespace Oracon.Repositorio
         void UpdateCurso(Curso curso, IFormFile image);
         void DeleteCurso(Curso curso);
         List<Curso> GetCursosProceso(int idUser);
+        List<Aprendizaje> GetAprendizajes(int IdCurso);
+        void SaveAprendizaje(Aprendizaje aprendizaje);
     }
     public class DocenteRepo : IDocenteRepo
     {
@@ -95,6 +97,17 @@ namespace Oracon.Repositorio
                     Where(o => !o.Estado && o.IdDocente == idUser).
                     Include(o => o.Categoria).
                     ToList();
+        }
+
+        public void SaveAprendizaje(Aprendizaje aprendizaje)
+        {
+            context.Aprendizajes.Add(aprendizaje);
+            context.SaveChanges();
+        }
+
+        public List<Aprendizaje> GetAprendizajes(int IdCurso)
+        {
+            return context.Aprendizajes.Where(o => o.IdCurso == IdCurso).ToList();
         }
     }
 }

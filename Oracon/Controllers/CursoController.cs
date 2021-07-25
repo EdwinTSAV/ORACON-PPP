@@ -56,6 +56,7 @@ namespace Oracon.Controllers
                 claim.SetHttpContext(HttpContext);
                 ViewBag.Favoritos = context.GetFavoritos(claim.GetLoggedUser().Id);
                 ViewBag.Compras = context.GetCursoUsuarios(claim.GetLoggedUser().Id);
+                ViewBag.Aprendizaje = context.GetAprendizajes(idCurso);
             }
             ViewBag.Nombre = curso.Nombre;
             return View(curso);

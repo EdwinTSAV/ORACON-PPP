@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Oracon.Models;
 using Oracon.Repositorio;
 using Oracon.Servicios;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Oracon.Controllers
@@ -154,8 +155,8 @@ namespace Oracon.Controllers
                 return RedirectToAction("Error", "Home");
         }
 
-        [HttpPost]
-        public ActionResult DetalleCurso(int f)
+        [HttpGet]
+        public ActionResult Aprendizaje()
         {
             claim.SetHttpContext(HttpContext);
             if (claim.GetLoggedUser().IdRol == 2)
@@ -163,6 +164,22 @@ namespace Oracon.Controllers
                 ViewBag.Cursos = context.GetCursosProceso(claim.GetLoggedUser().Id);
                 ViewBag.Categorias = context.GetCategorias();
                 return View();
+            }
+            else
+                return RedirectToAction("Error", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult Aprendizaje(Aprendizaje aprendizaje)
+        {
+            claim.SetHttpContext(HttpContext);
+            if (claim.GetLoggedUser().IdRol == 2)
+            {
+                ViewBag.Cursos = context.GetCursosProceso(claim.GetLoggedUser().Id);
+                ViewBag.Categorias = context.GetCategorias();
+                if (ModelState.IsValid)
+                    context.SaveAprendizaje(aprendizaje);
+                return View(aprendizaje);
             }
             else
                 return RedirectToAction("Error", "Home");
