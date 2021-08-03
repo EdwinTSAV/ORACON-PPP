@@ -27,7 +27,7 @@ namespace Oracon.Controllers
                 if (docente == null)
                     RedirectToAction("Error", "Home");
             }
-            else if(idCategoria > 0)
+            else if (idCategoria > 0)
             {
                 foreach (var item in ViewBag.Categorias)
                 {
@@ -47,6 +47,7 @@ namespace Oracon.Controllers
             return View(cursos);
         }
 
+        [HttpGet]
         public IActionResult Detalle(int idCurso)
         {
             ViewBag.Categorias = context.GetCategorias();
@@ -56,10 +57,28 @@ namespace Oracon.Controllers
                 claim.SetHttpContext(HttpContext);
                 ViewBag.Favoritos = context.GetFavoritos(claim.GetLoggedUser().Id);
                 ViewBag.Compras = context.GetCursoUsuarios(claim.GetLoggedUser().Id);
-                ViewBag.Aprendizaje = context.GetAprendizajes(idCurso);
             }
             ViewBag.Nombre = curso.Nombre;
             return View(curso);
+        }
+
+        [HttpPost]
+        public IActionResult Comentario(int idCurso, string Comentario)
+        {
+            ViewBag.Categorias = context.GetCategorias();
+            var curso = context.GetCurso(idCurso);
+            if (User.Identity.IsAuthenticated)
+            {
+                claim.SetHttpContext(HttpContext);
+                ViewBag.Favoritos = context.GetFavoritos(claim.GetLoggedUser().Id);
+                ViewBag.Compras = context.GetCursoUsuarios(claim.GetLoggedUser().Id);
+                if (Comentario != null)
+                {
+                    context.SaveComentario(claim.GetLoggedUser().Id, idCurso, Comentario);
+                }
+            }
+            ViewBag.Nombre = curso.Nombre;
+            return View("Detalle", curso);
         }
 
         public IActionResult Docentes()
@@ -67,6 +86,30 @@ namespace Oracon.Controllers
             ViewBag.Categorias = context.GetCategorias();
             var docentes = context.GetDocentes();
             return View(docentes);
+        }
+
+        public IActionResult Aprendizaje()
+        {
+            ViewBag.Categorias = context.GetCategorias();
+            claim.SetHttpContext(HttpContext);
+            var cursos = context.GetCursoUsuariosPagado(claim.GetLoggedUser().Id);
+            return View(cursos);
+        }
+
+        public IActionResult Favorito()
+        {
+            ViewBag.Categorias = context.GetCategorias();
+            claim.SetHttpContext(HttpContext);
+            var cursos = context.GetFavoritos(claim.GetLoggedUser().Id);
+            return View(cursos);
+        }
+
+        public IActionResult Carrito()
+        {
+            ViewBag.Categorias = context.GetCategorias();
+            claim.SetHttpContext(HttpContext);
+            var cursos = context.GetCursoUsuariosNoPagado(claim.GetLoggedUser().Id);
+            return View(cursos);
         }
 
         [HttpGet]

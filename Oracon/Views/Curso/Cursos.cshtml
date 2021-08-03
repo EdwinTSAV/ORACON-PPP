@@ -18,12 +18,11 @@
         {
             <li>
                 <div class="tabla-precio">
-
                     @if (User.Identity.IsAuthenticated)
                     {
                         var favorito = false;
                         var favoritos = (List<Favoritos>)ViewBag.Favoritos;
-                        <div class="porcomprar">
+                        <div>
                             @foreach (var fav in favoritos)
                             {
                                 if (item.Id == fav.IdCurso)
@@ -42,9 +41,15 @@
                             }
                             else
                             {
-                                <h3>@item.Nombre<a id="favorite_@item.Id" class="button-favorite float-right"><i onclick="favorite(@item.Id)" class="fa fa-heart-o" aria-hidden="true"></i></a> </h3>
+                                @if (item.Nombre.Length > 23)
+                                {
+                                    <h3>@item.Nombre.Substring(0, 22) ...<a id="favorite_@item.Id" class="button-favorite float-right"><i onclick="favorite(@item.Id)" class="fa fa-heart-o" aria-hidden="true"></i></a> </h3>
+                                }
+                                else
+                                {
+                                    <h3>@item.Nombre<a id="favorite_@item.Id" class="button-favorite float-right"><i onclick="favorite(@item.Id)" class="fa fa-heart-o" aria-hidden="true"></i></a> </h3>
+                                }
                             }
-
                         </div>
                     }
                     else
@@ -100,11 +105,11 @@
                         }
                         @if (comprado && pagado)
                         {
-                            <button id="compra_@item.Id" class="button">COMPRADO</button>
+                            <button id="compra_@item.Id" class="button">Aprendizaje</button>
                         }
                         else if (comprado && !pagado)
                         {
-                            <button id="compra_@item.Id" class="button">CANCELAR</button>
+                            <button id="compra_@item.Id" class="button">Ver cesta</button>
                         }
                         else
                         {

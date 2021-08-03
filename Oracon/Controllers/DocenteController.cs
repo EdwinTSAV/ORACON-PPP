@@ -185,6 +185,132 @@ namespace Oracon.Controllers
                 return RedirectToAction("Error", "Home");
         }
 
+        [HttpGet]
+        public ActionResult Descripcion()
+        {
+            claim.SetHttpContext(HttpContext);
+            if (claim.GetLoggedUser().IdRol == 2)
+            {
+                ViewBag.Cursos = context.GetCursosProceso(claim.GetLoggedUser().Id);
+                ViewBag.Categorias = context.GetCategorias();
+                return View();
+            }
+            else
+                return RedirectToAction("Error", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult Descripcion(int IdCurso, string Descripcion, string video)
+        {
+            claim.SetHttpContext(HttpContext);
+            if (claim.GetLoggedUser().IdRol == 2)
+            {
+                ViewBag.Cursos = context.GetCursosProceso(claim.GetLoggedUser().Id);
+                ViewBag.Categorias = context.GetCategorias();
+                if (ModelState.IsValid)
+                    context.ActualizaCurso(IdCurso, Descripcion, video);
+                return View();
+            }
+            else
+                return RedirectToAction("Error", "Home");
+        }
+
+        [HttpGet]
+        public ActionResult Requisito()
+        {
+            claim.SetHttpContext(HttpContext);
+            if (claim.GetLoggedUser().IdRol == 2)
+            {
+                ViewBag.Cursos = context.GetCursosProceso(claim.GetLoggedUser().Id);
+                ViewBag.Categorias = context.GetCategorias();
+                return View();
+            }
+            else
+                return RedirectToAction("Error", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult Requisito(Requisitos requisitos)
+        {
+            claim.SetHttpContext(HttpContext);
+            if (claim.GetLoggedUser().IdRol == 2)
+            {
+                ViewBag.Cursos = context.GetCursosProceso(claim.GetLoggedUser().Id);
+                ViewBag.Categorias = context.GetCategorias();
+                if (ModelState.IsValid)
+                    context.SaveRequisitos(requisitos);
+                return View(requisitos);
+            }
+            else
+                return RedirectToAction("Error", "Home");
+        }
+
+        [HttpGet]
+        public ActionResult Contenido()
+        {
+            claim.SetHttpContext(HttpContext);
+            if (claim.GetLoggedUser().IdRol == 2)
+            {
+                ViewBag.Cursos = context.GetCursosProceso(claim.GetLoggedUser().Id);
+                ViewBag.Categorias = context.GetCategorias();
+                return View();
+            }
+            else
+                return RedirectToAction("Error", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult Contenido(int IdCurso, int IdModulo, string NombreModulo, string NombreClase, string videoClase)
+        {
+            claim.SetHttpContext(HttpContext);
+            if (claim.GetLoggedUser().IdRol == 2)
+            {
+                ViewBag.Cursos = context.GetCursosProceso(claim.GetLoggedUser().Id);
+                ViewBag.Categorias = context.GetCategorias();
+                if (IdCurso == 0)
+                    ModelState.AddModelError("IdCurso", "Elige un curso");
+                else if(IdModulo == 0)
+                {
+                    Modulo modulo = new Modulo() {
+                        IdCurso = IdCurso,
+                        Nombre = NombreModulo,
+                        Clases = new List<Clases>
+                        {
+                            new Clases
+                            {
+                                Nombre = NombreClase,
+                                Video = videoClase
+                            }
+                        }
+                    };
+                    context.SaveModulos(modulo);
+                }
+                else if (IdModulo > 0)
+                {
+                    var modulo = context.GetModulo(IdModulo);
+                    modulo.Clases = new List<Clases>
+                    {
+                        new Clases
+                        {
+                            Nombre = NombreClase,
+                            Video = videoClase
+                        }
+                    };
+                    context.UpdateModulos(modulo);
+                }
+                return View();
+            }
+            else
+                return RedirectToAction("Error", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult Modulos(int idCurso)
+        {
+            var modulos = context.GetModulos(idCurso);
+            return Json(modulos);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

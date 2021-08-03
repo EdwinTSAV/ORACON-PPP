@@ -19,7 +19,14 @@ namespace Oracon.Repositorio
         void DeleteCurso(Curso curso);
         List<Curso> GetCursosProceso(int idUser);
         List<Aprendizaje> GetAprendizajes(int IdCurso);
+        List<Requisitos> GetRequisitos(int IdCurso);
+        List<Modulo> GetModulos(int IdCurso);
+        Modulo GetModulo(int IdModulo);
         void SaveAprendizaje(Aprendizaje aprendizaje);
+        void SaveRequisitos(Requisitos requisitos);
+        void SaveModulos(Modulo modulo);
+        void UpdateModulos(Modulo modulo);
+        void ActualizaCurso(int IdCurso, string Descripcion, string video);
     }
     public class DocenteRepo : IDocenteRepo
     {
@@ -108,6 +115,48 @@ namespace Oracon.Repositorio
         public List<Aprendizaje> GetAprendizajes(int IdCurso)
         {
             return context.Aprendizajes.Where(o => o.IdCurso == IdCurso).ToList();
+        }
+
+        public void ActualizaCurso(int IdCurso, string descripcion, string video)
+        {
+            var curso = context.Cursos.Where(o => o.Id == IdCurso).FirstOrDefault();
+            curso.Descripcion = descripcion;
+            curso.Video = video;
+            context.Cursos.Update(curso);
+            context.SaveChanges();
+        }
+
+        public void SaveRequisitos(Requisitos requisitos)
+        {
+            context.Requisitos.Add(requisitos);
+            context.SaveChanges();
+        }
+
+        public List<Requisitos> GetRequisitos(int IdCurso)
+        {
+            return context.Requisitos.Where(o => o.IdCurso == IdCurso).ToList();
+        }
+
+        public void SaveModulos(Modulo modulo)
+        {
+            context.Modulos.Add(modulo);
+            context.SaveChanges();
+        }
+
+        public List<Modulo> GetModulos(int IdCurso)
+        {
+            return context.Modulos.Where(o => o.IdCurso == IdCurso).ToList();
+        }
+
+        public Modulo GetModulo(int IdModulo)
+        {
+            return context.Modulos.Where(o => o.Id == IdModulo).FirstOrDefault();
+        }
+
+        public void UpdateModulos(Modulo modulo)
+        {
+            context.Modulos.Update(modulo);
+            context.SaveChanges();
         }
     }
 }

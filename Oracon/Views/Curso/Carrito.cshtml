@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Carrito";
+    var cursos = (List<CursoUsuario>)Model;
+}
+
+<section class="seccion">
+    <ul class="lista-precios clearfix">
+        @foreach (var item in cursos)
+        {
+            <li>
+                <div class="tabla-precio">
+                    <div>
+                        @if (item.Cursos.Nombre.Length > 23)
+                        {
+                            <h3>@item.Cursos.Nombre.Substring(0, 22) ...</h3>
+                        }
+                        else
+                        {
+                            <h3>@item.Cursos.Nombre</h3>
+                        }
+                    </div>
+                    <a href="/Curso/Detalle?idCurso=@item.Cursos.Id">
+                        <img alt="@item.Cursos.Nombre" src="@item.Cursos.Imagen">
+                    </a>
+                    <ul>
+                        <li><i class="fa fa-user" aria-hidden="true"></i> @item.Cursos.Docente.Nombres @*@item.Docente.Apellidos*@</li>
+                        <li><i class="fa fa-book" aria-hidden="true"></i> @item.Cursos.Categoria.Nombre</li>
+                        @if (item.Cursos.Estado)
+                        {
+                            <li><i class="fa fa-check-circle" aria-hidden="true"></i> Concluido</li>
+                        }
+                        else
+                        {
+                            <li><i class="fa fa-hourglass-end" aria-hidden="true"></i> En progreso</li>
+                        }
+                    </ul>
+                </div>
+            </li>
+        }
+    </ul>
+</section>
+

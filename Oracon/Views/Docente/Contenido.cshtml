@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewData["Title"] = "Contenido";
+    Layout = "~/Views/Shared/Docente_Layout.cshtml";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Agregar Contenido de Curso</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/docente/">Dashboard</a></li>
+        <li class="breadcrumb-item active">Crear Contenido</li>
+    </ol>
+    <form action="/docente/Contenido" enctype="multipart/form-data" class="col-12" method="post">
+        <div class="mb-3">
+            <label class="form-label" for="IdCurso">Selecciona un curso</label>
+            <select id="curso" onchange="cargarModulos()" name="IdCurso" class="form-control" required>
+                <option value="">-- Selecciona un curso --</option>
+                @foreach (var item in ViewBag.Cursos)
+                {
+                    <option value="@item.Id">@item.Nombre</option>
+                }
+            </select>
+            <p class="alert-danger">@Html.ValidationMessage("IdCurso")</p>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="IdCurso"><strong>Selecciona un modulo del curso</strong></label>
+            <select id="modulo" name="IdModulo" class="form-control">
+                <option value="0">-- Seleccione un modulo --</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="NombreModulo"><strong>O agregar un nuevo modulo al curso</strong></label>
+            <input type="text" class="form-control" placeholder="NombreModulo" name="NombreModulo" />
+            <p class="alert-danger">@Html.ValidationMessage("NombreModulo")</p>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="NombreClase">Agregar una clase al Modulo</label>
+            <input type="text" class="form-control" placeholder="NombreClase" name="NombreClase" />
+            <p class="alert-danger">@Html.ValidationMessage("NombreClase")</p>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="videoClase">Agregar un video a la clase</label>
+            <input type="text" class="form-control" placeholder="videoClase" name="videoClase" />
+            <p class="alert-danger">@Html.ValidationMessage("videoClase")</p>
+        </div>
+
+        <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
+        <a class="btn btn-danger" href="/docente/">Cancelar</a>
+    </form>
+</div>
+
+<script>
+    function cargarModulos() {
+        var $curso = $('select#curso');
+        var $modulo = $('select#modulo');
+        $.ajax({
+            url: '/Docente/Modulos?idCurso=' + $curso.val(),
+            type: 'get'
+        }).done(function (items) {
+            var options = '<option value="">-- Seleccione  un modulo --</option>';
+            for (i = 0; i < items.length; i++) {
+                options += `<option value="${items[i].id}">${items[i].nombre}</option>`
+            }
+            $modulo.html(options);
+        })
+    }
+</script>

@@ -20,10 +20,12 @@ namespace Oracon.Repositorio
         void SaveFavorito(int idCurso, int idUser);
         void DeleteFavorito(Favoritos favoritos);
         List<CursoUsuario> GetCursoUsuarios(int idUser);
-        List<Aprendizaje> GetAprendizajes(int idCurso);
+        List<CursoUsuario> GetCursoUsuariosPagado(int idUser);
+        List<CursoUsuario> GetCursoUsuariosNoPagado(int idUser);
         CursoUsuario GetCompra(int idUser, int idCurso);
         void SaveCursoUsuario(int idCurso, int idUser);
         void SaveCursoUsuarioGratuito(int idCurso, int idUser);
+        void SaveComentario(int idUsuario, int idCurso, string Comentario);
         void DeleteCursoUsuario(CursoUsuario cursoUsuario);
     }
     public class CursoRepo : ICursoRepo
@@ -110,6 +112,7 @@ namespace Oracon.Repositorio
                 Include(o => o.Cursos).
                 Include(o => o.Usuarios).
                 Include(o => o.Cursos.Docente).
+                Include(o => o.Cursos.Categoria).
                 Where(o => o.IdUser == idUser).
                 ToList();
         }
@@ -145,9 +148,14 @@ namespace Oracon.Repositorio
 
         public Curso GetCurso(int idCurso)
         {
+            context.Modulos.Include(o => o.Clases).ToList();
             return context.Cursos.
                 Where(o => o.Id == idCurso).
                 Include(o => o.Docente).
+                Include(o => o.Aprendizajes).
+                Include(o => o.Requisitos).
+                Include(o => o.Modulos).
+                Include(o => o.Comentarios).
                 FirstOrDefault();
         }
 
@@ -157,9 +165,36 @@ namespace Oracon.Repositorio
             context.SaveChanges();
         }
 
-        public List<Aprendizaje> GetAprendizajes(int idCurso)
+        public void SaveComentario(int idUsuario, int idCurso, string Comentario)
         {
-            return context.Aprendizajes.Where(o => o.IdCurso == idCurso).ToList();
+            ComentarioCurso comentario = new ComentarioCurso();
+            comentario.IdCurso = idCurso;
+            comentario.IdUsuario = idUsuario;
+            comentario.Comentario = Comentario;
+            context.Add(comentario);
+            context.SaveChanges();
+        }
+
+        public List<CursoUsuario> GetCursoUsuariosPagado(int idUser)
+        {
+            return context.CursoUsuario.
+                Include(o => o.Cursos).
+                Include(o => o.Usuarios).
+                Include(o => o.Cursos.Docente).
+                Include(o => o.Cursos.Categoria).
+                Where(o => o.IdUser == idUser && o.Pagado).
+                ToList();
+        }
+
+        public List<CursoUsuario> GetCursoUsuariosNoPagado(int idUser)
+        {
+            return context.CursoUsuario.
+                Include(o => o.Cursos).
+                Include(o => o.Usuarios).
+                Include(o => o.Cursos.Docente).
+                Include(o => o.Cursos.Categoria).
+                Where(o => o.IdUser == idUser && !o.Pagado).
+                ToList();
         }
     }
 }

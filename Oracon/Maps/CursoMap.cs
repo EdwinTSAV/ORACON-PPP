@@ -22,6 +22,18 @@ namespace Oracon.Maps
             builder.HasMany(o => o.Aprendizajes).
                 WithOne().
                 HasForeignKey(o => o.IdCurso);
+
+            builder.HasMany(o => o.Requisitos).
+                WithOne().
+                HasForeignKey(o => o.IdCurso);
+
+            builder.HasMany(o => o.Modulos).
+                WithOne().
+                HasForeignKey(o => o.IdCurso);
+            
+            builder.HasMany(o => o.Comentarios).
+                WithOne().
+                HasForeignKey(o => o.IdCurso);
         }
     }
 }

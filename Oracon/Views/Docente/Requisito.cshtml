@@ -1,16 +1,16 @@
 ﻿
 @{
-    ViewData["Title"] = "Aprendizaje";
+    ViewData["Title"] = "Requisito";
     Layout = "~/Views/Shared/Docente_Layout.cshtml";
 }
 
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Agregar aprendizaje de Curso</h1>
+    <h1 class="mt-4">Agregar requisitos del Curso</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="/docente/">Dashboard</a></li>
         <li class="breadcrumb-item active">Crear Detalle</li>
     </ol>
-    <form action="/docente/Aprendizaje" enctype="multipart/form-data" class="col-12" method="post">
+    <form action="/docente/Requisito" enctype="multipart/form-data" class="col-12" method="post">
         <div class="mb-3">
             <label class="form-label" for="IdCurso">Selecciona un curso</label>
             <select name="IdCurso" class="form-control" required>
@@ -24,11 +24,10 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label" for="Descripcion">Agregar un nuevo aprendizaje al curso</label>
-            <input type="text" class="form-control" placeholder="Descripcion" name="Descripcion" required />
-            <p class="alert-danger">@Html.ValidationMessage("Descripcion")</p>
+            <label class="form-label" for="Requisito">Agregar un requisito al curso</label>
+            <input type="text" class="form-control" placeholder="Requisito" name="Requisito" required />
+            <p class="alert-danger">@Html.ValidationMessage("Requisito")</p>
         </div>
-
         <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
         <a class="btn btn-danger" href="/docente/">Cancelar</a>
     </form>
