@@ -1,7 +1,5 @@
-﻿@{
-    ViewData["Title"] = "Docentes";
-    var usuarios = (List<Usuario>)Model;
-}
+﻿@{ ViewData["Title"] = "Docentes";
+                var usuarios = (List<Usuario>)Model; }
 
 <section class="seccion contenedor">
     <form asp-action="docentes" method="get">
@@ -15,30 +13,29 @@
 <section class="invitados seccion contenedor">
     @foreach (var item in usuarios)
     {
-    <div id="page-wraper">
-        <section class="section about-me" data-section="section1">
-            <div class="container">
-                <div class="right-image-post">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="left-text">
-                                <h4>@item.Nombres @item.Apellidos</h4>
-                                <p><strong>@item.Titulo</strong></p>
-                                <p>
-                                    @item.Biografia
-                                </p>
-                                <a class="button" href="/Curso/Cursos?idDocente=@item.Id">Ver Cursos</a>
-                            </div>
+<div id="page-wraper">
+    <section class="section about-me" data-section="section1">
+        <div class="container">
+            <div class="right-image-post">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="left-text">
+                            <h4 class="text-danger">@item.Nombres @item.Apellidos</h4>
+                            <p class="fst-italic"><strong>@item.Titulo</strong></p>
+                            <p>
+                                @item.Biografia
+                            </p>
+                            <a class="button" href="/Curso/Cursos?idDocente=@item.Id">Ver Cursos</a>
                         </div>
-                        <div class="col-md-6">
-                            <div class="right-image">
-                                <img src="@item.Imagen" alt="@item.Nombres" />
-                            </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="right-image">
+                            <img src="@item.Imagen" alt="@item.Nombres" />
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </div>
-    }
+        </div>
+    </section>
+</div>}
 </section>
