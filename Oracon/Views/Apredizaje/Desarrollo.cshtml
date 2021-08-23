@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@{
+    ViewData["Title"] = "Desarrollo";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -42,7 +48,7 @@
         </ul>
     </nav>
     <div id="layoutSidenav">
-        <div id="layoutSidenav_nav">
+        <div id="layoutSidenav_nav" @*style=" width: max-content;"*@>
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
@@ -79,7 +85,10 @@
         </div>
         <div id="layoutSidenav_content">
             <main>
-                @RenderBody()
+                <div class="container-fluid px-4">
+                    <h1>Desarrollo</h1>
+                    @*RenderBody()*@
+                </div>
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
@@ -106,6 +115,5 @@
     <script src="~/js/demo/chart-bar-demo.js" asp-append-version="true"></script>
     <script src="~/js/demo/chart-pie-demo.js" asp-append-version="true"></script>
     <script src="~/js/demo/datatables-demo.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
 </body>
 </html>

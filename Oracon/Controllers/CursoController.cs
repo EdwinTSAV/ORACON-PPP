@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Oracon.Repositorio;
 using Oracon.Servicios;
 
@@ -55,13 +56,13 @@ namespace Oracon.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 claim.SetHttpContext(HttpContext);
-                ViewBag.Favoritos = context.GetFavoritos(claim.GetLoggedUser().Id);
-                ViewBag.Compras = context.GetCursoUsuarios(claim.GetLoggedUser().Id);
+                ViewBag.Favoritos = context.GetFavorito(claim.GetLoggedUser().Id, idCurso);
+                ViewBag.Compras = context.GetCompra(claim.GetLoggedUser().Id, idCurso);
             }
             ViewBag.Nombre = curso.Nombre;
             return View(curso);
         }
-
+        [Authorize]
         [HttpPost]
         public IActionResult Comentario(int idCurso, string Comentario)
         {
@@ -87,7 +88,7 @@ namespace Oracon.Controllers
             var docentes = context.GetDocentes();
             return View(docentes);
         }
-
+        [Authorize]
         public IActionResult Aprendizaje()
         {
             ViewBag.Categorias = context.GetCategorias();
@@ -95,7 +96,7 @@ namespace Oracon.Controllers
             var cursos = context.GetCursoUsuariosPagado(claim.GetLoggedUser().Id);
             return View(cursos);
         }
-
+        [Authorize]
         public IActionResult Favorito()
         {
             ViewBag.Categorias = context.GetCategorias();
@@ -103,7 +104,7 @@ namespace Oracon.Controllers
             var cursos = context.GetFavoritos(claim.GetLoggedUser().Id);
             return View(cursos);
         }
-
+        [Authorize]
         public IActionResult Carrito()
         {
             ViewBag.Categorias = context.GetCategorias();
@@ -111,7 +112,7 @@ namespace Oracon.Controllers
             var cursos = context.GetCursoUsuariosNoPagado(claim.GetLoggedUser().Id);
             return View(cursos);
         }
-
+        [Authorize]
         [HttpGet]
         public void Favoritos(int idCurso)
         {
@@ -125,7 +126,7 @@ namespace Oracon.Controllers
             if (ModelState.IsValid)
                 context.SaveFavorito(idCurso, claim.GetLoggedUser().Id);
         }
-
+        [Authorize]
         [HttpGet]
         public void Compras(int idCurso)
         {

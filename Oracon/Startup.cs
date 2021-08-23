@@ -35,6 +35,7 @@ namespace Oracon
             services.AddTransient<IDocenteRepo, DocenteRepo>();
             services.AddTransient<IAjustesRepo, AjustesRepo>();
             services.AddTransient<ICursoRepo, CursoRepo>();
+            services.AddTransient<IAprendizajeRepo, AprendizajeRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -164,28 +164,6 @@ namespace Oracon.Controllers
         }
 
         [HttpGet]
-        public IActionResult Favoritos()
-        {
-            claim.SetHttpContext(HttpContext);
-            var user = context.GetUsuario(claim.GetLoggedUser().Id);
-            ViewBag.User = user.IdRol;
-
-            var favoritos = context.GetFavoritos(user.Id);
-            return View(favoritos);
-        }
-
-        [HttpGet]
-        public IActionResult MisCursos()
-        {
-            claim.SetHttpContext(HttpContext);
-            var user = context.GetUsuario(claim.GetLoggedUser().Id);
-            ViewBag.User = user.IdRol;
-
-            var miscursos = context.GetCursoUsuarios(user.Id);
-            return View(miscursos);
-        }
-
-        [HttpGet]
         public IActionResult Terminados()
         {
             claim.SetHttpContext(HttpContext);

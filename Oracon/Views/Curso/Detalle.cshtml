@@ -1,6 +1,6 @@
 ﻿@{ ViewData["Title"] = ViewBag.Nombre;
-                var curso = (Curso)Model;
-                int i = 1; }
+    var curso = (Curso)Model;
+    int i = 1; }
 
 <section class="seccion">
     <h1 class="p-3 mb-2 bg-secondary text-white">@curso.Nombre</h1>
@@ -19,11 +19,13 @@
                 {
                     foreach (var item in curso.Aprendizajes)
                     {
-    <li><i class="fa fa-check" aria-hidden="true"></i> @item.Descripcion</li> }
+                        <li><i class="fa fa-check" aria-hidden="true"></i> @item.Descripcion</li>
+                    }
                 }
                 else
                 {
-    <li><i class="fa fa-check" aria-hidden="true"></i> En este curso aun faltan subir algunos detalles</li>}
+                    <li><i class="fa fa-check" aria-hidden="true"></i> En este curso aun faltan subir algunos detalles</li>
+                }
             </ul>
         </div>
     </div>
@@ -36,27 +38,28 @@
                 {
                     foreach (var item in curso.Modulos)
                     {
-    <div class="accordion-item">
-        <h5 class="accordion-header" id="heading_@item.Id">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@item.Id" aria-expanded="true" aria-controls="collapse_@item.Id">
-                @item.Nombre
-            </button>
-        </h5>
-        <div id="collapse_@item.Id" class="accordion-collapse collapse" aria-labelledby="heading_@item.Id" data-bs-parent="#accordionExample">
-            <div class="accordion-body">
-                <ul>
-                    @foreach (var clases in item.Clases)
-                    {
-<li>@i.  @clases.Nombre</li>i++;
-                    }
-                </ul>
-            </div>
-        </div>
-    </div> }
+                        <div class="accordion-item">
+                            <h5 class="accordion-header" id="heading_@item.Id">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@item.Id" aria-expanded="true" aria-controls="collapse_@item.Id">
+                                    @item.Nombre
+                                </button>
+                            </h5>
+                            <div id="collapse_@item.Id" class="accordion-collapse collapse" aria-labelledby="heading_@item.Id" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <ul>
+                                        @foreach (var clases in item.Clases)
+                                        {
+                                            <li>@i.  @clases.Nombre</li>
+                                            i++;
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div> }
                 }
                 else
                 {
-    <i class="fa fa-check" aria-hidden="true"> En este curso aun faltan subir algunos detalles </i>}
+                    <i class="fa fa-check" aria-hidden="true"> En este curso aun faltan subir algunos detalles </i>}
             </div>
         </div>
     </div>
@@ -69,11 +72,13 @@
                 {
                     foreach (var item in curso.Requisitos)
                     {
-    <li><i class="fa fa-check" aria-hidden="true"></i> @item.Requisito</li> }
+                        <li><i class="fa fa-check" aria-hidden="true"></i> @item.Requisito</li>
+                    }
                 }
                 else
                 {
-    <li><i class="fa fa-check" aria-hidden="true"></i> En este curso aun faltan subir algunos detalles </li>}
+                    <li><i class="fa fa-check" aria-hidden="true"></i> En este curso aun faltan subir algunos detalles </li>
+                }
             </ul>
         </div>
     </div>
@@ -98,22 +103,27 @@
 
     @if (curso.Comentarios != null)
     {
-<h5 class="card-title text-danger">Comentarios de los estudiantes</h5>
-                @foreach (var item in curso.Comentarios)
-                {
-<div class="card cuadro border-warning">
-    <div class="card-body border-danger">
-        <strong class="text-success">@item.Usuario.Nombres @item.Usuario.Apellidos</strong>
-        <div><span class="fst-italic">@item.Comentario</span></div>
-    </div>
-</div>}}
-    <form action="/Curso/Comentario" class="col-12" method="post">
-        <input type="hidden" name="idCurso" value="@curso.Id" />
-        <div class="mb-3">
-            <label class="form-label" for="Comentario">Agregar comentario</label>
-            <input type="text" class="form-control" placeholder="Comentario" name="Comentario" />
-            <p class="alert-danger">@Html.ValidationMessage("videoClase")</p>
-        </div>
-        <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
-    </form>
+        <h5 class="card-title text-danger">Comentarios de los estudiantes</h5>
+        @foreach (var item in curso.Comentarios)
+        {
+            <div class="card cuadro border-warning">
+                <div class="card-body border-danger">
+                    <strong class="text-success">@item.Usuario.Nombres @item.Usuario.Apellidos</strong>
+                    <div><span class="fst-italic">@item.Comentario</span></div>
+                </div>
+            </div>
+        }
+    }
+    @if (User.Identity.IsAuthenticated && ViewBag.Compras != null)
+    {
+        <form action="/Curso/Comentario" class="col-12" method="post">
+            <input type="hidden" name="idCurso" value="@curso.Id" />
+            <div class="mb-3">
+                <label class="form-label" for="Comentario">Agregar comentario</label>
+                <input type="text" class="form-control" placeholder="Comentario" name="Comentario" />
+                <p class="alert-danger">@Html.ValidationMessage("videoClase")</p>
+            </div>
+            <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
+        </form>
+    }
 </section>

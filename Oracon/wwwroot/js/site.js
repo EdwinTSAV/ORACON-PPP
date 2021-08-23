@@ -5,10 +5,9 @@
 
 /** BARRA MOVIL HOME INDEX */
 $(function () {
-    var n = $(window).height(),
-        a = $(".barra").innerHeight();
+    var a = $(".barra").innerHeight();
     $(window).scroll(function () {
-        $(window).scrollTop() > n ? ($(".barra").addClass("fixed"),
+        $(window).scrollTop() > 0 ? ($(".barra").addClass("fixed"),
             $("body").css({ "margin-top": a + "px" })) : ($(".barra").removeClass("fixed"),
                 $("body").css({ "margin-top": "0px" }))
     });

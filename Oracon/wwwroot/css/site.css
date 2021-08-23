@@ -184,10 +184,28 @@ h3 {
     margin: 0;
 }
 
-a.button {
+a.button, li a.button, div a.button {
     color: white;
     text-decoration: none;
+    font-size: 1.2em;
+    padding: 5px 30px;
+    margin: 10px 5px
 }
+
+li a.favorito {
+    font-size: 1.2em;
+    padding: 5px 10px;
+    margin: 10px 15px 0px 15px;
+    border-radius: 50px;
+    border: 1.5px solid black;
+    background-color: white
+}
+
+    li a.favorito:hover {
+        background-color: #efefef;
+        border-color: black;
+        cursor: pointer
+    }
 
 .button {
     background-color: orangered;
@@ -198,7 +216,7 @@ a.button {
     font-family: 'Oswald', sans-serif;
     text-decoration: none;
     font-size: 1.2em;
-    margin-top: 20px;
+    margin-top: 10px;
     display: inline-block;
     transition: all .5s ease;
     border-color: orangered;
@@ -208,6 +226,24 @@ a.button {
         background-color: #d00000;
         border-color: #e00000;
     }
+
+div a.aprendizaje {
+    background-color: #9d00CCcc;
+    padding: 10px 40px;
+    color: white;
+    font-weight: bold;
+    font-family: 'Oswald', sans-serif;
+    text-decoration: none;
+    margin-top: 10px;
+    display: inline-block;
+    transition: all .5s ease;
+    border-color: #9d00CCcc;
+}
+
+.aprendizaje:hover {
+    background-color: blueviolet;
+    border-color: blueviolet;
+}
 
 ul {
     list-style: none;
@@ -724,9 +760,9 @@ div.tabla-precio {
 
     div.tabla-precio ul {
         font-family: 'PT Sans', sans-serif;
-        font-size: 14px;
-        margin-top: 10px;
-        line-height: 25px;
+        font-size: 12px;
+        margin-top: 5px;
+        line-height: 20px;
         padding: 0;
     }
 
@@ -742,15 +778,10 @@ div.tabla-precio {
     }
 
     div.tabla-precio a img {
-        width: 200px;
-        height: 120px;
+        width: 190px;
+        height: 110px;
+        margin: -8px 0 1px 0
     }
-
-/** FAVORITO **/
-
-a.button-favorite {
-    padding: 0px 25px 0px 0px;
-}
 
 /* BUSCAR meter a la barra */
 form div input {

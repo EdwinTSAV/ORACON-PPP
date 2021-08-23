@@ -1,9 +1,11 @@
 ﻿@{
     ViewData["Title"] = "Carrito";
     var cursos = (List<CursoUsuario>)Model;
+    string docente;
 }
 
 <section class="seccion">
+    <h2>Mi cesta</h2>
     <ul class="lista-precios clearfix">
         @foreach (var item in cursos)
         {
@@ -23,8 +25,27 @@
                         <img alt="@item.Cursos.Nombre" src="@item.Cursos.Imagen">
                     </a>
                     <ul>
-                        <li><i class="fa fa-user" aria-hidden="true"></i> @item.Cursos.Docente.Nombres @*@item.Docente.Apellidos*@</li>
+                        <li>
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            @{docente = item.Cursos.Docente.Nombres + " " + item.Cursos.Docente.Apellidos;}
+                            @if (docente.Length > 23)
+                            {
+                                <span>@docente.Substring(0, 22) ...</span>
+                            }
+                            else
+                            {
+                                @docente
+                            }
+                        </li>
                         <li><i class="fa fa-book" aria-hidden="true"></i> @item.Cursos.Categoria.Nombre</li>
+                        @if (item.Cursos.Precio > 0)
+                        {
+                            <li>S/ @item.Cursos.Precio</li>
+                        }
+                        else
+                        {
+                            <li>Gratuito</li>
+                        }
                         @if (item.Cursos.Estado)
                         {
                             <li><i class="fa fa-check-circle" aria-hidden="true"></i> Concluido</li>
