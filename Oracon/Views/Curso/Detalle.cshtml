@@ -11,7 +11,7 @@
         <span class="fst-italic">@curso.Descripcion</span>
     </div>
 
-    <div class="card cuadro border-success">
+    <div class="card cuadro border-0">
         <div class="card-body">
             <h5 class="card-title text-danger">Lo que aprenderás</h5>
             <ul>
@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <div class="card cuadro border-warning">
+    <div class="card cuadro border-0">
         <div class="card-body">
             <h5 class="card-title text-danger">Contenido del curso</h5>
             <div class="accordion" id="accordionExample">
@@ -64,7 +64,7 @@
         </div>
     </div>
 
-    <div class="card cuadro border-info">
+    <div class="card cuadro border-0">
         <div class="card-body">
             <h5 class="card-title text-danger">Requisitos para este curso</h5>
             <ul>
@@ -83,7 +83,7 @@
         </div>
     </div>
 
-    <div class="card cuadro border-dark">
+    <div class="card cuadro border-0">
         <div class="right-image">
         </div>
         <div class="row g-0">
@@ -106,7 +106,7 @@
         <h5 class="card-title text-danger">Comentarios de los estudiantes</h5>
         @foreach (var item in curso.Comentarios)
         {
-            <div class="card cuadro border-warning">
+            <div class="card cuadro border-0">
                 <div class="card-body border-danger">
                     <strong class="text-success">@item.Usuario.Nombres @item.Usuario.Apellidos</strong>
                     <div><span class="fst-italic">@item.Comentario</span></div>
